@@ -1,4 +1,4 @@
-#include "Entry.h"
+#include "entry.h"
 
 template <typename K, typename V>
 bool Entry<K, V>::operator== (Entry <K, V> const& e) {

@@ -19,17 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\entry.h" />
-    <ClInclude Include="..\src\node.h" />
+    <ClInclude Include="..\src\tree_node.h" />
     <ClInclude Include="..\src\search_tree.h" />
-    <ClInclude Include="..\src\tree.h" />
+    <ClInclude Include="..\src\binary_tree.h" />
+    <ClInclude Include="src\entry.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\entry.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\node.cpp" />
+    <ClCompile Include="..\src\tree_node.cpp" />
     <ClCompile Include="..\src\search_tree.cpp" />
-    <ClCompile Include="..\src\tree.cpp" />
+    <ClCompile Include="..\src\binary_tree.cpp" />
+    <ClCompile Include="src\entry.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

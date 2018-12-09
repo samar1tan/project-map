@@ -14,33 +14,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\entry.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\node.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\search_tree.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\tree.h">
+    <ClInclude Include="..\src\binary_tree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\tree_node.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entry.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\entry.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\node.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\src\search_tree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\tree.cpp">
+    <ClCompile Include="..\src\binary_tree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tree_node.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
