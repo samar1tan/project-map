@@ -5,7 +5,7 @@ template <typename T> class Tree {
 protected:
     int _size;
     NodePosi(T) _root;
-
+    
     virtual int updateHeight(NodePosi(T) x);
     void updateHeightAbove(NodePosi(T) x);
 public:
@@ -15,7 +15,7 @@ public:
     int size() const;
     bool empty() const;
     NodePosi(T) root() const;
-    
+
     NodePosi(T) insertAsRoot(T const& e);
     NodePosi(T) insertAsLC(NodePosi(T) x, T const& e);
     NodePosi(T) insertAsRC(NodePosi(T) x, T const& e);

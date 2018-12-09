@@ -1,7 +1,7 @@
 #pragma once
 #include "Tree.h"
 
-template <typename T> class SearchTree : public Tree {
+template <typename T> class SearchTree : public Tree<T> {
 private:
     NodePosi(T) searchIn(NodePosi(T)& v, const T e, NodePosi(T)& hot);
 protected:
