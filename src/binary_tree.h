@@ -1,30 +1,36 @@
 #pragma once
-#include "Node.h"
+#include "tree_node.h"
 
 template <typename T> class Tree {
 protected:
     int _size;
-    NodePosi(T) _root;
+    Node<T>* _root;
     
-    virtual int updateHeight(NodePosi(T) x);
-    void updateHeightAbove(NodePosi(T) x);
+    virtual int UpdateHeight(Node<T>* x);
+    void UpdateHeightAbove(Node<T>* x);
 public:
-    Tree() : _size(0), _root(nullptr) {}
-    ~Tree() { if (_size > 0) remove(_root); }
+    Tree() : _size(0), _root(nullptr) {
+
+    }
+
+    ~Tree() { 
+        if (_size > 0) {
+            RemoveSubtree(_root);
+        }
+    }
     
     int size() const;
-    bool empty() const;
-    NodePosi(T) root() const;
+    bool IsEmpty() const;
+    Node<T>* root() const;
 
-    NodePosi(T) insertAsRoot(T const& e);
-    NodePosi(T) insertAsLC(NodePosi(T) x, T const& e);
-    NodePosi(T) insertAsRC(NodePosi(T) x, T const& e);
-    NodePosi(T) attachAsLST(NodePosi(T) x, Tree<T>*& T);
-    NodePosi(T) attachAsRST(NodePosi(T) x, Tree<T>*& T);
-    int remove(NodePosi(T) x);
-    Tree<T>* secede(NodePosi(T) x);
-    template <typename VST> void travLevel(VST& visit);
-    template <typename VST> void travPre(VST& visit);
-    template <typename VST> void travIn(VST& visit);
-    template <typename VST> void travPost(VST& visit);
+    Node<T>* InsertAsRoot(T const& e);
+    Node<T>* InsertAsLC(Node<T>* x, T const& e);
+    Node<T>* InsertAsRC(Node<T>* x, T const& e);
+    Node<T>* AttachAsLST(Node<T>* x, Tree<T>*& T);
+    Node<T>* AttachAsRST(Node<T>* x, Tree<T>*& T);
+    int RemoveSubtree(Node<T>* x);
+    template <typename VST> void TravLevel(VST& visit);
+    template <typename VST> void TravPre(VST& visit);
+    template <typename VST> void TravIn(VST& visit);
+    template <typename VST> void TravPost(VST& visit);
 };

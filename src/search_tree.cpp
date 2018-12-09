@@ -1,14 +1,14 @@
-#include "SearchTree.h"
+#include "search_tree.h"
 
-template <typename T> NodePosi(T) SearchTree<T>::searchIn(NodePosi(T)& v, const T e, NodePosi(T)& hot) {
+template <typename T> Node<T>* SearchTree<T>::SearchIn(Node<T>*& v, const T e, Node<T>*& hot) {
     if (!v || e == v->data) {
         return v;
     } else {
         hot = v;
-        return searchIn((e < v->data ? v->lc : v->rc), e, hot);
+        return SearchIn((e < v->data ? v->lc : v->rc), e, hot);
     }
 }
 
-template <typename T> NodePosi(T)& SearchTree<T>::search(const T& e) {
+template <typename T> Node<T>*& SearchTree<T>::SearchNode(const T& e) {
     return searchIn(this->_root, e, _hot = nullptr); // why need explicit "this->"?
 }

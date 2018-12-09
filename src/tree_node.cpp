@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "tree_node.h"
 
 template <typename T>
 bool Node<T>::operator== (Node const& bn) const {

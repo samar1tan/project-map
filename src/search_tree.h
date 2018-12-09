@@ -1,16 +1,16 @@
 #pragma once
-#include "Tree.h"
+#include "binary_tree.h"
 
 template <typename T> class SearchTree : public Tree<T> {
 private:
-    NodePosi(T) searchIn(NodePosi(T)& v, const T e, NodePosi(T)& hot);
+    Node<T>* SearchIn(Node<T>*& v, const T e, Node<T>*& hot);
 protected:
-    NodePosi(T) _hot; // hitted node's parent
-    NodePosi(T) connect34(NodePosi(T), NodePosi(T), NodePosi(T),
-        NodePosi(T), NodePosi(T), NodePosi(T), NodePosi(T));
-    NodePosi(T) rotateAt(NodePosi(T) x);
+    Node<T>* _hot; // hitted node's parent
+    Node<T>* Connect34(Node<T>*, Node<T>*, Node<T>*,
+        Node<T>*, Node<T>*, Node<T>*, Node<T>*);
+    Node<T>* RotateAt(Node<T>* x);
 public:
-    NodePosi(T)& search(const T& e);
-    virtual NodePosi(T)& insert(const T& e);
-    virtual bool remove(const T& e);
+    Node<T>*& SearchNode(const T& e);
+    virtual Node<T>*& InsertNode(const T& e);
+    virtual bool RemoveNode(const T& e);
 };

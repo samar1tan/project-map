@@ -1,10 +1,10 @@
-#include "Tree.h"
+#include "binary_tree.h"
 
 template <typename T>
-void Tree<T>::updateHeightAbove(NodePosi(T) x) {
+void Tree<T>::UpdateHeightAbove(Node<T>* x) {
     if (x) {
         x->height++;
-        updateHeightAbove(x->parent);
+        UpdateHeightAbove(x->parent);
     }
 }
 
@@ -14,35 +14,35 @@ int Tree<T>::size() const {
 }
 
 template <typename T>
-bool Tree<T>::empty() const {
+bool Tree<T>::IsEmpty() const {
     return !_root;
 }
 
 template <typename T>
-NodePosi(T) Tree<T>::root() const {
+Node<T>* Tree<T>::root() const {
     return _root;
 }
 
 template <typename T> 
-template <typename VST> void Tree<T>::travLevel(VST& visit) {
+template <typename VST> void Tree<T>::TravLevel(VST& visit) {
     if (_root)
-        _root->travLevel(visit);
+        _root->TravLevel(visit);
 }
 
 template <typename T> 
-template <typename VST> void Tree<T>::travPre(VST& visit) {
+template <typename VST> void Tree<T>::TravPre(VST& visit) {
     if (_root)
-        _root->travPre(visit);
+        _root->TravPre(visit);
 }
 
 template <typename T>
-template <typename VST> void Tree<T>::travIn(VST& visit) {
+template <typename VST> void Tree<T>::TravIn(VST& visit) {
     if (_root)
-        _root->travIn(visit);
+        _root->TravIn(visit);
 }
 
 template <typename T> 
-template <typename VST> void Tree<T>::travPost(VST& visit) {
+template <typename VST> void Tree<T>::TravPost(VST& visit) {
     if (_root)
-        _root->travPost(visit);
+        _root->TravPost(visit);
 }
