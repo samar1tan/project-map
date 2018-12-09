@@ -18,6 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\entry.h" />
+    <ClInclude Include="..\src\node.h" />
+    <ClInclude Include="..\src\search_tree.h" />
+    <ClInclude Include="..\src\tree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\entry.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\node.cpp" />
+    <ClCompile Include="..\src\search_tree.cpp" />
+    <ClCompile Include="..\src\tree.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{74F62F5A-D2B7-4C9A-BC62-8E4814754723}</ProjectGuid>
@@ -114,19 +127,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Entry.h" />
-    <ClInclude Include="..\Node.h" />
-    <ClInclude Include="..\SearchTree.h" />
-    <ClInclude Include="..\Tree.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Entry.cpp" />
-    <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\Node.cpp" />
-    <ClCompile Include="..\SearchTree.cpp" />
-    <ClCompile Include="..\Tree.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
