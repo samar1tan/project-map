@@ -25,10 +25,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\red_black_tree\tree_node.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\tree.cpp" />
+    <ClCompile Include="..\lib\red_black_tree\rbtree_tree.cpp" />
     <ClCompile Include="..\lib\red_black_tree\entry.cpp" />
     <ClCompile Include="..\lib\red_black_tree\main.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\red_black_tree.cpp" />
+    <ClCompile Include="..\lib\red_black_tree\rbtree_red_black_tree.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
