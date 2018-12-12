@@ -1,44 +1,43 @@
 #include "rbtree.h"
+#include "helpers.h"
 
-template <typename T> 
-static Node<T>* SearchIn(Node<T>* v, const T e, Node<T>*& hot) {
-    if (!v || e == v->_data) {
-        return v;
-    } else {
-        hot = v;
-        return SearchIn((e < v->_data ? v->_left_child : v->_right_child), e, hot);
-    }
+template <typename T>
+bool RedBlackTree<T>::NeedUpdateHeight(const Node<T>* node) {
+
+}
+
+template <typename T>
+int RedBlackTree<T>::black_height(const Node<T>* node) {
+    return (node ? node->_black_height : 0); // define NULL's black height as 0
 }
 
 template <typename T> 
-Node<T>* RedBlackTree<T>::SearchNode(const T& e) {
-    return SearchIn(this->_root, e, _hot = nullptr); // initialize _hot & update it
+int RedBlackTree<T>::UpdateBlackHeight(const Node<T>* node) {
+    node->_black_height = max<int>(2, black_height(node->_lchild), black_height(node->_rchild));
+    return (node->IsBlack() ? node->_black_height++ : node->_black_height);
 }
 
-template <typename T> 
-Node<T>* RedBlackTree<T>::InsertNode(const T& e) {
-    Node<T>* result = SearchNode(e);
-    Node<T>* aim = (result ? result : _hot);
-    Node<T>* back = nullptr;
-    if (e < aim->_data) {
-        back = aim->InsertAsLC(e);
-    } else {
-        back = aim->InsertAsRC(e);
-    }
-
-    _size++;
-    UpdateHeightAbove(back);
+template <typename T>
+void RedBlackTree<T>::UpdateBlackHeightAbove(const Node<T>* node) {
 
 }
 
 template <typename T> 
-bool RedBlackTree<T>::RemoveNode(const T& e) {
-    Node<T>* aim = SearchNode(e);
-    if (!aim) {
-        return false;
-    } else {
-        if
-    }
+Node<T>* RedBlackTree<T>::SearchNodeIn(const Node<T>* subtree, const T& target, Node<T>*& target_parent) const{
 
+}
+
+template <typename T> 
+Node<T>* RedBlackTree<T>::SearchNode(const T& target, Node<T>*& target_parent) const{
+
+}
+
+template <typename T> 
+Node<T>* RedBlackTree<T>::InsertNode(const T& data) {
+
+}
+
+template <typename T> 
+bool RedBlackTree<T>::RemoveNode(const T& target) {
 
 }

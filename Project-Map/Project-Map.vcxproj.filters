@@ -23,6 +23,9 @@
     <ClInclude Include="..\lib\red_black_tree\entry.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\lib\red_black_tree\helpers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\red_black_tree\main.cpp">

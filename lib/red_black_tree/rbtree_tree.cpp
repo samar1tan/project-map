@@ -1,6 +1,13 @@
 #include "rbtree.h"
 
 template <typename T>
+Tree<T>::~Tree(){
+    if (_size > 0) {
+        RemoveSubtree(_root);
+    }
+}
+
+template <typename T>
 int Tree<T>::size() const {
     return _size;
 }
