@@ -1,24 +1,22 @@
 #pragma once
 #include "tree_node.h"
 
-template <typename T> class Tree {
+template <typename T> 
+class Tree {
 protected:
-    int _size;
     Node<T>* _root;
-    
-    virtual int UpdateHeight(Node<T>* x);
-    void UpdateHeightAbove(Node<T>* x);
+    int _size;
 public:
     Tree() : _size(0), _root(nullptr) {
 
     }
 
-    ~Tree() { 
+    ~Tree() {
         if (_size > 0) {
             RemoveSubtree(_root);
         }
     }
-    
+
     int size() const;
     bool IsEmpty() const;
     Node<T>* root() const;
@@ -33,4 +31,14 @@ public:
     template <typename VST> void TravPre(VST& visit);
     template <typename VST> void TravIn(VST& visit);
     template <typename VST> void TravPost(VST& visit);
+};
+
+template <typename T> 
+class RedBlackTree : public Tree<T> {
+protected:
+
+public:
+    Node<T>* SearchNode(const T& e);
+    Node<T>* InsertNode(const T& e);
+    bool RemoveNode(const T& e);
 };
