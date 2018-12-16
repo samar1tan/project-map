@@ -78,14 +78,12 @@ Node<T>* RedBlackTree<T>::InsertNode(const T& data) {
     if (is_exist) {
         return is_exist;
     } else {
-        Node<T>* newly_inserted = nullptr;
         if (!_size++) {
-            newly_inserted = _root = Node<T*> root = new Node<T>(data);
+            _root = new Node<T>(data, color = RB_BLACK);
         } else {
-            newly_inserted = Node<T>* raw = new Node<T>(data, parent = insert_posi);
+            SolveDoubleRed(new Node<T>(data, parent = insert_posi));
         }
 
-        SolveDoubleRed(newly_inserted);
         return raw;
     }
 }
