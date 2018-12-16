@@ -6,45 +6,41 @@ class Tree {
 protected:
     Node<T>* _root;
     int _size;
+
+    void RemoveSubTree(Node<T>* subtree);
 public:
-    Tree() : _size(0), _root(nullptr) { }
+    Tree() : _size(0), _root(nullptr) {
+        return;
+    }
     ~Tree();
 
     int size() const;
     bool IsEmpty() const;
     Node<T>* root() const;
-
-    Node<T>* InsertAsRoot(T const& e);
-    Node<T>* InsertAsLC(Node<T>* x, T const& e);
-    Node<T>* InsertAsRC(Node<T>* x, T const& e);
-    Node<T>* AttachAsLST(Node<T>* x, Tree<T>*& T);
-    Node<T>* AttachAsRST(Node<T>* x, Tree<T>*& T);
-    int RemoveSubtree(Node<T>* x);
-    template <typename VST> 
-    void TravLevel(VST& visit);
-    template <typename VST> 
-    void TravPre(VST& visit);
-    template <typename VST> 
-    void TravIn(VST& visit);
-    template <typename VST> 
-    void TravPost(VST& visit);
 };
 
 template <typename T>
-class RedBlackTree : public Tree<T> {
+class SearchTree : public Tree<T>{
+protected:
+    Node<T>* RefactorSubtree(Node<T>* n1, Node<T>* n2, Node<T>* n3,
+        Node<T>* t1, Node<T>* t2, Node<T>*t3, Node<T>* t4);
+    Node<T>* RebalanceSubtree(Node<T>* newly_inserted);
+    
+    Node<T>* SearchNodeIn(const Node<T>* subtree, const T& target, Node<T>*& target_parent) const;
+    Node<T>* SearchNode(const T& target, Node<T>*& target_parent) const;
+};
+
+template <typename T>
+class RedBlackTree : public SearchTree<T> {
 private:
     bool NeedUpdateHeight(const Node<T>* node);
+ 
+    void SolveDoubleRed(Node<T>* newly_inserted);
+    void SolveDoubleBlack(Node<T>* newly_removed);
 
-    Node<T>* SearchNodeIn(const Node<T>* subtree, const T& target, Node<T>*& target_parent) const;
-    
-    void SolveDoubleRed(Node<T>*);
-    void SolveDoubleBlack(Node<T>*);
-
-    int black_height(const Node<T>* node);
+    int black_height(const Node<T>* node) const;
     int UpdateBlackHeight(const Node<T>* node);
-    void UpdateBlackHeightAbove(const Node<T>* node);
 public:
-    Node<T>* SearchNode(const T& target, Node<T>*& target_parent) const;
     Node<T>* InsertNode(const T& data);
     bool RemoveNode(const T& target);
 };

@@ -25,6 +25,7 @@
     <ClInclude Include="..\lib\red_black_tree\rbtree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\lib\red_black_tree\rbtree_search_tree.cpp" />
     <ClCompile Include="..\lib\red_black_tree\tree_node.cpp" />
     <ClCompile Include="..\lib\red_black_tree\rbtree_tree.cpp" />
     <ClCompile Include="..\lib\red_black_tree\entry.cpp" />

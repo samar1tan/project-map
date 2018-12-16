@@ -43,5 +43,8 @@
     <ClCompile Include="..\lib\red_black_tree\rbtree_red_black_tree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\red_black_tree\rbtree_search_tree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

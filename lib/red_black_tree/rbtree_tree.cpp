@@ -1,7 +1,20 @@
 #include "rbtree.h"
 
 template <typename T>
-Tree<T>::~Tree(){
+void Tree<T>::RemoveSubTree(Node<T>* subtree) {
+    if (subtree->HasLChild()) {
+        RemoveSubTree(subtree->_lchild);
+    }
+    
+    if (subtree->HasRChild()){
+        RemoveSubTree(subtree->_rchild);
+    }
+
+    delete subtree;
+}
+
+template <typename T>
+Tree<T>::~Tree() {
     if (_size > 0) {
         RemoveSubtree(_root);
     }
@@ -20,32 +33,4 @@ bool Tree<T>::IsEmpty() const {
 template <typename T>
 Node<T>* Tree<T>::root() const {
     return _root;
-}
-
-template <typename T>
-template <typename VST> 
-void Tree<T>::TravLevel(VST& visit) {
-    if (_root)
-        _root->TravLevel(visit);
-}
-
-template <typename T>
-template <typename VST> 
-void Tree<T>::TravPre(VST& visit) {
-    if (_root)
-        _root->TravPre(visit);
-}
-
-template <typename T>
-template <typename VST> 
-void Tree<T>::TravIn(VST& visit) {
-    if (_root)
-        _root->TravIn(visit);
-}
-
-template <typename T> 
-template <typename VST> 
-void Tree<T>::TravPost(VST& visit) {
-    if (_root)
-        _root->TravPost(visit);
 }

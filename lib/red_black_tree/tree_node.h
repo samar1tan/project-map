@@ -8,46 +8,22 @@ struct Node {
     int _black_height;
     RBColor _color;
 
-    Node(T d = T(), Node<T>* p = nullptr, Node<T>* l = nullptr, Node<T>* r = nullptr, int height = 0, RBColor c = RB_RED) : _data(d), _parent(p), _lchild(l), _rchild(r), _black_height(0), _color(c) {
-
-    }
-
-    ~Node() {
-        delete _data, _black_height, _color, _parent, _lchild, _rchild;
+    Node(T d, Node<T>* p = nullptr, Node<T>* l = nullptr, Node<T>* r = nullptr, int height = 0, RBColor c = RB_RED) : _data(d), _parent(p), _lchild(l), _rchild(r), _black_height(0), _color(c) {
+        return;
     }
 
     bool IsBlack() const;
+    bool HasLChild() const;
+    bool HasRChild() const;
+    bool IsLChild() const;
+    bool ISRChild() const;
 
-    Node<T>* InorderSuccessor() const;
-    bool operator== (Node& bn) const {
-        return _data == bn._data;
-    }
-
-    bool operator!= (Node& bn) const {
-        return _data != bn._data;
-    }
-
-    bool operator< (Node& bn) const {
-        return _data < bn._data;
-    }
-
-    bool operator> (Node& bn) const {
-        return _data > bn._data;
-    }
-
-    void operator= (const Node& bn) {
-        _data = bn._data;
-        _parent = bn._parent;
-        _lchild = bn._lchild;
-        _rchild = bn._rchild;
-        _black_height = bn._black_height;
-        _color = bn._color;
-    }
+    bool operator== (Node& bn) const;
+    bool operator!= (Node& bn) const;
+    bool operator< (Node& bn) const;
+    bool operator> (Node& bn) const;
+    void operator= (const Node& bn);
 
     Node<T>* InsertAsLC(T const&);
     Node<T>* InsertAsRC(T const&);
-    template <typename VST> void TravLevel(VST&); 
-    template <typename VST> void TravPre(VST&); 
-    template <typename VST> void TravIn(VST&);
-    template <typename VST> void TravPost(VST&);
 };
