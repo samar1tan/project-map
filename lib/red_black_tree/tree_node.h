@@ -5,11 +5,17 @@ template <typename T>
 struct Node {
     T _data;
     Node<T>* _parent, _lchild, _rchild;
-    int _black_height;
+    int _height; // black height
     RBColor _color;
 
-    Node(T d, Node<T>* p = nullptr, Node<T>* l = nullptr, Node<T>* r = nullptr, int height = 0, RBColor c = RB_RED) : _data(d), _parent(p), _lchild(l), _rchild(r), _black_height(0), _color(c) {
-        return;
+    Node(T data, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 1, RBColor color = RB_RED) : _data(data), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height), _color(color) {
+        if (parent) {
+            if (parent->_data < data) {
+                parent->_rchild = this;
+            } else {
+                parent->_lchild = this;
+            }
+        }
     }
 
     bool IsBlack() const;
@@ -18,12 +24,11 @@ struct Node {
     bool IsLChild() const;
     bool ISRChild() const;
 
-    bool operator== (Node& bn) const;
-    bool operator!= (Node& bn) const;
-    bool operator< (Node& bn) const;
-    bool operator> (Node& bn) const;
-    void operator= (const Node& bn);
+    Node<T>* uncle() const;
 
-    Node<T>* InsertAsLC(T const&);
-    Node<T>* InsertAsRC(T const&);
+    bool operator== (const Node& bn) const;
+    bool operator!= (const Node& bn) const;
+    bool operator< (const Node& bn) const;
+    bool operator> (const Node& bn) const;
+    void operator= (const Node& bn);
 };

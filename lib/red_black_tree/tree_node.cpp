@@ -34,43 +34,44 @@ bool Node<T>::ISRChild() const {
 }
 
 template <typename T>
-Node<T>* Node<T>::InsertAsLC(const T& e) {
-    _lchild = Node<T>* raw = new Node<T>(_parent = this, _data = e);
-    return raw;
+Node<T>* Node<T>::uncle() const{
+    if (!_parent || !_parent->_parent) {
+        return nullptr;
+    } else {
+        if (_parent->IsLChild()) {
+            return _parent->_parent->_rchild;
+        } else {
+            return _parent->_parent->_lchild;
+        }
+    }
 }
 
 template <typename T>
-Node<T>* Node<T>::InsertAsRC(const T& e) {
-    _rchild = Node<T>* raw = new Node<T>(_parent = this, _data = e);
-    return raw;
-}
-
-template <typename T>
-bool Node<T>::operator== (Node& bn) const {
+bool Node<T>::operator== (const Node& bn) const {
     return _data == bn._data;
 }
 
 template <typename T>
-bool Node<T>::operator!= (Node& bn) const {
+bool Node<T>::operator!= (const Node& bn) const {
     return _data != bn._data;
 }
 
 template <typename T>
-bool Node<T>::operator< (Node& bn) const {
+bool Node<T>::operator< (const Node& bn) const {
     return _data < bn._data;
 }
 
 template <typename T>
-bool Node<T>::operator> (Node& bn) const {
+bool Node<T>::operator> (const Node& bn) const {
     return _data > bn._data;
 }
 
 template <typename T>
-void Node<T>::operator= (const Node& bn) {
+void Node<T>::operator= (const const Node& bn) {
     _data = bn._data;
     _parent = bn._parent;
     _lchild = bn._lchild;
     _rchild = bn._rchild;
-    _black_height = bn._black_height;
+    _height = bn._height;
     _color = bn._color;
 }

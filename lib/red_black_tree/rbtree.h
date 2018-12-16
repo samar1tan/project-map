@@ -22,25 +22,25 @@ public:
 template <typename T>
 class SearchTree : public Tree<T>{
 protected:
+    virtual int UpdateHeight(Node<T>* node);
+
     Node<T>* RefactorSubtree(Node<T>* n1, Node<T>* n2, Node<T>* n3,
         Node<T>* t1, Node<T>* t2, Node<T>*t3, Node<T>* t4);
     Node<T>* RebalanceSubtree(Node<T>* newly_inserted);
-    
-    Node<T>* SearchNodeIn(const Node<T>* subtree, const T& target, Node<T>*& target_parent) const;
-    Node<T>* SearchNode(const T& target, Node<T>*& target_parent) const;
 };
 
 template <typename T>
 class RedBlackTree : public SearchTree<T> {
 private:
-    bool NeedUpdateHeight(const Node<T>* node);
- 
+    Node<T>* SearchNodeIn(Node<T>* subtree, const T& goal, Node<T>** return_hitted_parent) const;
     void SolveDoubleRed(Node<T>* newly_inserted);
     void SolveDoubleBlack(Node<T>* newly_removed);
-
-    int black_height(const Node<T>* node) const;
-    int UpdateBlackHeight(const Node<T>* node);
+    
+    int height(Node<T>* node) const;
+    bool NeedUpdateHeight(Node<T>* node);
+    int UpdateHeight(Node<T>* node);
 public:
+    Node<T>* SearchNode(const T& goal, Node<T>** return_hitted_parent) const;
     Node<T>* InsertNode(const T& data);
-    bool RemoveNode(const T& target);
+    bool RemoveNode(const T& goal);
 };
