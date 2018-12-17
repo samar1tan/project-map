@@ -20,30 +20,18 @@
     <ClInclude Include="..\lib\red_black_tree\tree_node.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\red_black_tree\entry.h">
+    <ClInclude Include="..\lib\red_black_tree\helpers.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\red_black_tree\helpers.h">
+    <ClInclude Include="..\lib\simple_map.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\lib\red_black_tree\main.cpp">
+    <ClCompile Include="..\test\test_map.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\red_black_tree\entry.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\red_black_tree\tree_node.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\red_black_tree\rbtree_tree.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\red_black_tree\rbtree_red_black_tree.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lib\red_black_tree\rbtree_search_tree.cpp">
+    <ClCompile Include="..\test\test_rbtree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -19,18 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\lib\red_black_tree\entry.h" />
     <ClInclude Include="..\lib\red_black_tree\helpers.h" />
     <ClInclude Include="..\lib\red_black_tree\tree_node.h" />
     <ClInclude Include="..\lib\red_black_tree\rbtree.h" />
+    <ClInclude Include="..\lib\simple_map.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\lib\red_black_tree\rbtree_search_tree.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\tree_node.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\rbtree_tree.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\entry.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\main.cpp" />
-    <ClCompile Include="..\lib\red_black_tree\rbtree_red_black_tree.cpp" />
+    <ClCompile Include="..\test\test_map.cpp" />
+    <ClCompile Include="..\test\test_rbtree.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
