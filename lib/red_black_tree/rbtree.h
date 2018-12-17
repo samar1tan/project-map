@@ -36,7 +36,6 @@ protected:
 
     // find correct order to feed into model "3-node-4-tree"  
     Node<T>* RebalanceSubtree(Node<T>* newly_inserted);
-
     Node<T>* RemoveAt(Node<T>* posi, Node<T>** return_real_removed_parent);
 };
 
@@ -47,7 +46,7 @@ private:
 
     Node<T>* SearchNodeIn(Node<T>* subtree, const T& goal, Node<T>** return_hitted_parent) const;
     void SolveDoubleRed(Node<T>* newly_inserted);
-    void SolveDoubleBlack(Node<T>* removed_replacer, Node<T>* goal_parent);
+    void SolveDoubleBlack(Node<T>* removed_replacer, Node<T>** goal_parent);
     
     int UpdateHeight(Node<T>* node);
     int height(Node<T>* node) const;
@@ -196,17 +195,21 @@ Node<T>* SearchTree<T>::RemoveAt(Node<T>* posi, Node<T>** return_real_removed_pa
         }
         temp->_data = posi->_data;
     }
-
+    
     Node<T>* replacer = nullptr;
-    if (posi->HasLChild()) {
-        replacer = posi->_lchild;
-    } else if(posi->HasRChild()){
+    if (!posi->HasLChild()) {
         replacer = posi->_rchild;
+    } else if(!posi->HasRChild()){
+        replacer = posi->_lchild;
     }
 
     if (posi == this->_root) {
-        this->_root = replacer;
-        replacer->_parent = nullptr;
+        if (this->_size == 1) {
+            this->_root = nullptr;
+        } else {
+            this->_root = replacer;
+            replacer->_parent = nullptr;
+        }
     } else {
         if (posi->IsLChild()) {
             posi->_parent->_lchild = replacer;
@@ -224,6 +227,7 @@ Node<T>* SearchTree<T>::RemoveAt(Node<T>* posi, Node<T>** return_real_removed_pa
 
     return replacer;
 }
+
 
 // RedBlackTree
 template <typename T>
@@ -287,13 +291,13 @@ void RedBlackTree<T>::SolveDoubleRed(Node<T>* newly_inserted) {
 }
 
 template <typename T>
-void RedBlackTree<T>::SolveDoubleBlack(Node<T>* removed_replacer, Node<T>* goal_parent) {
-    Node<T>* parent = (removed_replacer ? removed_replacer->_parent : goal_parent);
+void RedBlackTree<T>::SolveDoubleBlack(Node<T>* removed_replacer, Node<T>** goal_parent) {
+    Node<T>* parent = (removed_replacer ? removed_replacer->_parent : *goal_parent);
     if (!parent) {
         return;
     }
 
-    Node<T>* brother = (removed_replacer->IsLChild() ? parent->_rchild : parent->_lchild);
+    Node<T>* brother = (removed_replacer == parent->_lchild ? parent->_rchild : parent->_lchild);
 
     if (IsBlack(brother)) {
         Node<T>* red_nephew = nullptr; // red left nephew > red right nephew. if all black, remain NULL
@@ -330,8 +334,9 @@ void RedBlackTree<T>::SolveDoubleBlack(Node<T>* removed_replacer, Node<T>* goal_
         brother->_color = RB_BLACK;
         parent->_color = RB_RED;
         Node<T>* same_side_nephew = (brother->IsLChild() ? brother->_lchild : brother->_rchild);
+        *goal_parent = parent;
         this->RebalanceSubtree(same_side_nephew);
-        SolveDoubleBlack(removed_replacer, parent);
+        SolveDoubleBlack(removed_replacer, goal_parent);
     }
 }
 
@@ -382,24 +387,33 @@ bool RedBlackTree<T>::RemoveNode(const T& goal) {
     Node<T>* is_exist = SearchNode(goal);
     if (!is_exist) {
         return false;
-    } else {
-        Node<T>* real_removed_parent = nullptr;
-        Node<T>* removed_replacer = this->RemoveAt(is_exist, &real_removed_parent);
-        if (!(--(this->_size))) {
-            return true;
-        } else if (!real_removed_parent) {
-            this->_root->_color = RB_BLACK;
-            UpdateHeight(this->_root);
-            return true;
-        } else if (IsHeightUpdated(real_removed_parent)) {
-            return true;
-        } else if (!IsBlack(removed_replacer)) {
-            removed_replacer->_color = RB_BLACK;
-            removed_replacer->_height++;
-            return true;
-        } else {
-            SolveDoubleBlack(removed_replacer, real_removed_parent);
-            return true;
-        }
+    } 
+    Node<T>* real_removed_parent = nullptr;
+    Node<T>* removed_replacer = this->RemoveAt(is_exist, &real_removed_parent);
+    if (!(--(this->_size))) {
+        return true;
     }
+
+    if (!real_removed_parent) {
+        this->_root->_color = RB_BLACK;
+        UpdateHeight(this->_root);
+        return true;
+    }
+
+    if (IsHeightUpdated(real_removed_parent)) {
+        return true;
+    }
+
+    if (!IsBlack(removed_replacer)) {
+        removed_replacer->_color = RB_BLACK;
+        removed_replacer->_height++;
+        return true;
+    }
+
+    SolveDoubleBlack(removed_replacer, &real_removed_parent);
+    while (this->_root->_parent) {
+        this->_root = this->_root->_parent;
+    }
+
+    return true;
 }
