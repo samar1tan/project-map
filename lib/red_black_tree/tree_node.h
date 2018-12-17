@@ -8,7 +8,8 @@ struct Node {
     int _height; // black height
     RBColor _color;
 
-    Node(T data, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 1, RBColor color = RB_RED) : _data(data), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height), _color(color) {
+    // define init color as RB_RED --> init (black) height as 0
+    Node(T data, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 0, RBColor color = RB_RED) : _data(data), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height), _color(color) {
         if (parent) {
             if (parent->_data < data) {
                 parent->_rchild = this;

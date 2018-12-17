@@ -37,7 +37,7 @@ private:
     void SolveDoubleBlack(Node<T>* newly_removed);
     
     int height(Node<T>* node) const;
-    bool NeedUpdateHeight(Node<T>* node);
+    bool IsHeightUpdated(Node<T>* node) const;
     int UpdateHeight(Node<T>* node);
 public:
     Node<T>* SearchNode(const T& goal, Node<T>** return_hitted_parent) const;

@@ -51,12 +51,9 @@ int RedBlackTree<T>::height(Node<T>* node) const {
 }
 
 template <typename T>
-bool RedBlackTree<T>::NeedUpdateHeight(Node<T>* node) {
-    if (node->IsBlack()) {
-        return node->_height == max<int>(2, height(node->_lchild), height(node->_rchild)) + 1;
-    } else {
-        return node->_height == max<int>(2, height(node->_lchild), height(node->_rchild));
-    }
+bool RedBlackTree<T>::IsHeightUpdated(Node<T>* node) const {
+    return (height(node->_lchild) == height(node->_rchild)) &&
+        (height(node) == (node->IsBlack() ? height(node->_lchild) + 1 : height(node->_lchild)));
 }
 
 template <typename T>
@@ -78,23 +75,19 @@ Node<T>* RedBlackTree<T>::InsertNode(const T& data) {
     if (is_exist) {
         return is_exist;
     } else {
+        Node<T>* raw = nullptr;
         if (!_size++) {
-            _root = new Node<T>(data, color = RB_BLACK);
+            raw = _root = new Node<T>(data);
         } else {
-            SolveDoubleRed(new Node<T>(data, parent = insert_posi));
+            raw = new Node<T>(data, parent = insert_posi);
         }
 
+        SolveDoubleRed(raw);
         return raw;
     }
 }
 
 template <typename T> 
 bool RedBlackTree<T>::RemoveNode(const T& goal) {
-    Node<T>* remove_posi = nullptr;
-    Node<T>* is_exist = SearchNode(goal, &remove_posi);
-    if (!is_exist) {
-        return false;
-    } else {
-        
-    }
+    
 }
