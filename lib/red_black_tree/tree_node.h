@@ -9,7 +9,7 @@ struct Node {
     RBColor _color;
 
     // define init color as RB_RED --> init (black) height as 0
-    Node(T data, RBColor color, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 0) : _data(data), _color(color), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height) {
+    Node(T data, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 0, RBColor color = RB_RED) : _data(data), _color(color), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height) {
         if (parent) {
             if (parent->_data < data) {
                 parent->_rchild = this;

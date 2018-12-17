@@ -256,6 +256,10 @@ void RedBlackTree<T>::SolveDoubleRed(Node<T>* newly_inserted) {
     } else {
         Node<T>* son = newly_inserted;
         Node<T>* parent = newly_inserted->_parent;
+        if (IsBlack(parent)) {
+            return;
+        }
+
         Node<T>* uncle = newly_inserted->uncle();
         Node<T>* grandparent = parent->_parent;
 
@@ -363,15 +367,12 @@ Node<T>* RedBlackTree<T>::InsertNode(const T& data) {
     } else {
         Node<T>* raw = nullptr;
         if (!((this->_size)++)) {
-            raw = this->_root = new Node<T>(data, RB_BLACK);
+            raw = this->_root = new Node<T>(data);
         } else {
-            raw = new Node<T>(data, RB_RED, insert_posi);
-            if (raw->_parent->_color == RB_RED) {
-                SolveDoubleRed(raw);
-            }
-
+            raw = new Node<T>(data, insert_posi);
         }
 
+        SolveDoubleRed(raw);
         return raw;
     }
 }
