@@ -137,6 +137,7 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
     if (!(son && parent && grandparent)) {
         return nullptr;
     } else {
+        Node<T>* subtree_root = nullptr;
         if (parent->IsLChild()) {
             if (son->IsLChild()) {
                 if (parent->_parent = grandparent->_parent) {
@@ -146,7 +147,7 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
                         parent->_parent->_rchild = parent;
                     }
                 }
-                return RefactorSubtree(son, parent, grandparent,
+                subtree_root = RefactorSubtree(son, parent, grandparent,
                     son->_lchild, son->_rchild, parent->_rchild, grandparent->_rchild);
             } else {
                 if (son->_parent = grandparent->_parent) {
@@ -156,7 +157,7 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
                         son->_parent->_rchild = son;
                     }
                 }
-                return RefactorSubtree(parent, son, grandparent,
+                subtree_root = RefactorSubtree(parent, son, grandparent,
                     parent->_lchild, son->_lchild, son->_rchild, grandparent->_rchild);
             }
         } else {
@@ -168,7 +169,7 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
                         son->_parent->_rchild = son;
                     }
                 }
-                return RefactorSubtree(grandparent, son, parent,
+                subtree_root = RefactorSubtree(grandparent, son, parent,
                     grandparent->_lchild, son->_lchild, son->_rchild, parent->_rchild);
             } else {
                 if (parent->_parent = grandparent->_parent) {
@@ -178,10 +179,16 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
                         parent->_parent->_rchild = parent;
                     }
                 }
-                return RefactorSubtree(grandparent, parent, son,
+                subtree_root = RefactorSubtree(grandparent, parent, son,
                     grandparent->_lchild, parent->_lchild, son->_lchild, son->_rchild);
             }
         }
+
+        if (this->_root->_parent) {
+            this->_root = subtree_root;
+        }
+
+        return subtree_root;
     }
 }
 
@@ -276,9 +283,6 @@ void RedBlackTree<T>::SolveDoubleRed(Node<T>* newly_inserted) {
             grandparent->_color = RB_RED;
 
             Node<T>* rebalanced_subtree = this->RebalanceSubtree(son);
-            if (this->_root->_parent) {
-                this->_root = rebalanced_subtree;
-            }
         } else {
             uncle->_color = RB_BLACK;
             uncle->_height++;
@@ -411,9 +415,6 @@ bool RedBlackTree<T>::RemoveNode(const T& goal) {
     }
 
     SolveDoubleBlack(removed_replacer, &real_removed_parent);
-    while (this->_root->_parent) {
-        this->_root = this->_root->_parent;
-    }
 
     return true;
 }
