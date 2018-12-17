@@ -17,9 +17,9 @@ Node<T>* RedBlackTree<T>::SearchNodeIn(Node<T>* subtree, const T& goal, Node<T>*
 
 template <typename T>
 void RedBlackTree<T>::SolveDoubleRed(Node<T>* newly_inserted) {
-    if (newly_inserted == _root) {
-        _root->_color = RB_BLACK;
-        _root->_height++;
+    if (newly_inserted == this->_root) {
+        this->_root->_color = RB_BLACK;
+        this->_root->_height++;
     } else {
         Node<T>* son = newly_inserted;
         Node<T>* parent = newly_inserted->_parent;
@@ -108,7 +108,7 @@ int RedBlackTree<T>::UpdateHeight(Node<T>* node) {
 
 template <typename T>
 Node<T>* RedBlackTree<T>::SearchNode(const T& goal, Node<T>** return_hitted_parent) const {
-    return SearchNodeIn(_root, goal, &return_hitted_parent);
+    return SearchNodeIn(this->_root, goal, &return_hitted_parent);
 }
 
 template <typename T> 
@@ -120,10 +120,10 @@ Node<T>* RedBlackTree<T>::InsertNode(const T& data) {
         return is_exist;
     } else {
         Node<T>* raw = nullptr;
-        if (!_size++) {
-            raw = _root = new Node<T>(data);
+        if (!((this->_size)++)) {
+            raw = this->_root = new Node<T>(data);
         } else {
-            raw = new Node<T>(data, parent = insert_posi);
+            raw = new Node<T>(data, insert_posi);
         }
 
         SolveDoubleRed(raw);
@@ -139,11 +139,11 @@ bool RedBlackTree<T>::RemoveNode(const T& goal) {
         return false;
     } else {
         Node<T>* removed_replacer = RemoveAt(is_exist);
-        if (!(--_size)) {
+        if (!(--(this->_size))) {
             return true;
         } else if (!removed_replacer->_parent) {
-            _root->_color = RB_BLACK;
-            UpdateHeight(_root);
+            this->_root->_color = RB_BLACK;
+            UpdateHeight(this->_root);
             return true;
         } else if (IsHeightUpdated(removed_replacer) || removed_replacer->IsBlack()) {
             return true;

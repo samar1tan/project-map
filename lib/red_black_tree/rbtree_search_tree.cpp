@@ -34,7 +34,7 @@ template <typename T>
 Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
     Node<T>* son = newly_inserted;
     Node<T>* parent = son->_parent;
-    Node<T>* grandparent = father->_parent;
+    Node<T>* grandparent = parent->_parent;
     if (!(son && parent && grandparent)) {
         return nullptr;
     } else {
@@ -80,7 +80,7 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
                     }
                 }
                 return RefactorSubtree(grandparent, parent, son,
-                    grandparent->_lchild, parent->_lchild, son->_lchild, son->_rchild, );
+                    grandparent->_lchild, parent->_lchild, son->_lchild, son->_rchild);
             }
         }
     }
@@ -92,7 +92,7 @@ Node<T>* SearchTree<T>::RemoveAt(Node<T>* posi) {
         Node<T>* temp = posi;
         posi = posi->_rchild;
         while (posi->_lchild) {
-            posi = real_removed->_lchild;
+            posi = posi->_lchild;
         }
         temp->_data = posi->_data;
     }
@@ -104,8 +104,8 @@ Node<T>* SearchTree<T>::RemoveAt(Node<T>* posi) {
         replacer = posi->_rchild;
     } 
     
-    if (posi == _root) {
-        _root = replacer;
+    if (posi == this->_root) {
+        this->_root = replacer;
         replacer->_parent = nullptr;
     } else {
         if (posi->IsLChild()) {
