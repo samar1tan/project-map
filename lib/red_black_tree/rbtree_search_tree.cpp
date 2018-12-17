@@ -85,3 +85,37 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
         }
     }
 }
+
+template <typename T>
+Node<T>* SearchTree<T>::RemoveAt(Node<T>* posi) {
+    if (posi->HasLChild() && posi->HasRChild()) {
+        Node<T>* temp = posi;
+        posi = posi->_rchild;
+        while (posi->_lchild) {
+            posi = real_removed->_lchild;
+        }
+        temp->_data = posi->_data;
+    }
+
+    Node<T>* replacer = nullptr;
+    if (posi->HasLChild()) {
+        replacer = posi->_lchild;
+    } else {
+        replacer = posi->_rchild;
+    } 
+    
+    if (posi == _root) {
+        _root = replacer;
+        replacer->_parent = nullptr;
+    } else {
+        if (posi->IsLChild()) {
+            posi->_parent->_lchild = replacer;
+        } else {
+            posi->_parent->_rchild = replacer;
+        }
+        replacer->_parent = posi->_parent;
+        delete posi;
+    }
+
+    return replacer;
+}
