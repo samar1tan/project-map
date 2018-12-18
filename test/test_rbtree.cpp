@@ -51,6 +51,13 @@ int main() {
     for (int i = 9999; i > -1; i--) {
         test->RemoveNode(trace[i]);
     }
+
+    for (int i = 0; i < 10000; i++) {
+        test->InsertNode(rand() % 10000);
+        test->RemoveNode(rand() % 10000);
+        test->RemoveNode(rand() % 10000);
+        test->InsertNode(rand() % 10000);
+    }
     
     delete test;
 
