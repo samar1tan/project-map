@@ -2,14 +2,11 @@
 #include "red_black_tree\rbtree.h" // declarations and implementations of Red Black Tree, used as basic data structure of SimpleMap
 #include "entry.h" // element in SimpleMap named "entry", a pair of <key, value>
 #include <iterator>
-#include <limits> // for MAX_UNSIGNED_INT, theorical max size of SimpleMap
+#include <limits.h> // for MAX_UNSIGNED_INT, theorical max size of SimpleMap
 
 // DECLARATIONS
 template <typename Key, typename Value>
 class SimpleMap {
-protected: // ready for derivations
-    RedBlackTree< Entry<Key, Value> >* _data;
-    unsigned int _size;
 public:
     class iterator {
     private:
@@ -112,10 +109,21 @@ public:
 
     typedef std::reverse_iterator<iterator> reverse_iterator;
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-
-
+protected:
+    iterator _begin;
+    iterator _end;
+    reverse_iterator _rbegin;
+    reverse_iterator _rend;
+    const_iterator _cbegin;
+    const_iterator _cend;
+    const_reverse_iterator _crbegin;
+    const_reverse_iterator _crend;
+protected:
+    RedBlackTree< Entry<Key, Value> >* _data;
+    unsigned int _size;
+public:
     // Constructor
-    SimpleMap() : _data(new RedBlackTree< Entry<Key, Value> >), _size(0) { } 
+    SimpleMap() : _data(new RedBlackTree< Entry<Key, Value> >), _size(0), _begin(), _end(), _rbegin(), _rend(), _cbegin(), _cend(), _crbegin(), _crend() { } 
     
     // Destructor
     ~SimpleMap();
@@ -144,6 +152,7 @@ public:
     int count(const Key& k) const; // return number of elements with key = k, only 0 / 1 is legal
     iterator lower_bound(const Key& k) const; // return iterator to element with min key
     iterator upper_bound(const Key& k) const; // return iterator to element with max key
+    RedBlackTree< Entry<Key, Value> >* data() const; // return pointer to root of basic Red Black Tree
 
     // Modifiers
     Entry<Key, Value> insert(const Entry<Key, Value>& element); // return copy of newly inserted element 
@@ -156,3 +165,79 @@ public:
 
 // IMPLEMENTATIONS
 template <typename Key, typename Value>
+SimpleMap<Key, Value>::~SimpleMap() {
+    delete _data;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>& SimpleMap<Key, Value>::operator=(const SimpleMap<Key, Value>& x) {
+    _data = x.data();
+    _size = x.size();
+    _begin = x.begin();
+    _end = x.end();
+    _rbegin = x.rbegin();
+    _rend = x.rend();
+    _cbegin = x.cbegin();
+    _cend = x.cend();
+    _crbegin = x.crbegin();
+    _crend = x.crend();
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::begin() const {
+    return _begin;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::end() const {
+    return _end;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::reverse_iterator SimpleMap<Key, Value>::rbegin() const {
+    return _rbegin;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::reverse_iterator SimpleMap<Key, Value>::rend() const {
+    return _rend;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::const_iterator SimpleMap<Key, Value>::cbegin() const {
+    return _cbegin;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::const_iterator SimpleMap<Key, Value>::cend() const {
+    return _cend;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crbegin() const {
+    return _crbegin;
+}
+
+template <typename Key, typename Value>
+SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crend() const {
+    return _crend;
+}
+
+template <typename Key, typename Value>
+bool SimpleMap<Key, Value>::empty() const {
+    return !_size;
+}
+
+template <typename Key, typename Value>
+unsigned int SimpleMap<Key, Value>::size() const {
+    return _size;
+}
+
+template <typename Key, typename Value>
+unsigned int SimpleMap<Key, Value>::max_size() const {
+    return UINT_MAX;
+}
+
+
+
+
