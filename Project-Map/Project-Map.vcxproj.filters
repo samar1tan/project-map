@@ -31,8 +31,5 @@
     <ClCompile Include="..\test\test_map.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\test\test_rbtree.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
