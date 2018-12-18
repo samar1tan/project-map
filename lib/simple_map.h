@@ -4,6 +4,7 @@
 #include <iterator>
 #include <limits> // for MAX_UNSIGNED_INT, theorical max size of SimpleMap
 
+// DECLARATIONS
 template <typename Key, typename Value>
 class SimpleMap {
 protected: // ready for derivations
@@ -11,35 +12,102 @@ protected: // ready for derivations
     unsigned int _size;
 public:
     class iterator {
+    private:
+        Node< Entry<Key, Value> >* _data;
     public:
-        iterator();
-        iterator(const iterator&);
-        ~iterator();
+        iterator() : _data(nullptr) { }
+        iterator(const iterator& x) : _data(x) { }
 
-        iterator& operator=(const iterator&);
-        bool operator==(const iterator&) const;
-        bool operator!=(const iterator&) const;
+        Node< Entry<Key, Value> >* data() {
+            return _data;
+        }
 
-        iterator& operator++();
+        iterator& operator=(const iterator& b) {
+            _data = b.data();
+            return *this;
+        }
 
-        Entry<Key, Value>& operator*() const;
-        Entry<Key, Value>* operator->() const;
+        bool operator==(const iterator& b) const {
+            return *_data == *(b.data());
+        }
+
+        bool operator!=(const iterator& b) const {
+            return *_data != *(b.data());
+        }
+
+        // in Binary Search Tree, e.g., Red Black Tree
+        // transfer to successor in inorder traversal, otherwise nullptr
+        iterator& operator++() {
+            if (_data->HasRChild()) {
+                _data = _data->_rchild;
+                while (_data->_lchild) {
+                    _data = _data->_lchild;
+                }
+            } else if(_data->ISRChild()){
+                _data = _data->_parent->_parent;
+            } else {
+                _data = _data->_parent;
+            }
+
+            return *this;
+        }
+
+        Node< Entry<Key, Value> >& operator*() const {
+            return *_data;
+        }
+
+        Node< Entry<Key, Value> >* operator->() const {
+            return _data->;
+        }
     };
 
     class const_iterator {
-        const_iterator();
-        const_iterator(const const_iterator&);
-        const_iterator(const iterator&);
-        ~const_iterator();
+    private:
+        const Node< Entry<Key, Value> >* _data;
+    public:
+        const_iterator() : _data(nullptr) { }
+        const_iterator(const const_iterator& cx) : _data(cx) { }
+        const_iterator(const iterator& x) : _data(x) { }
 
-        const_iterator& operator=(const const_iterator&);
-        bool operator==(const const_iterator&) const;
-        bool operator!=(const const_iterator&) const;
+        Node< Entry<Key, Value> >* data() {
+            return _data;
+        }
 
-        const_iterator& operator++();
+        const_iterator& operator=(const const_iterator& b) {
+            _data = b.data();
+            return *this;
+        }
+         
+        bool operator==(const iterator& b) const {
+            return *_data == *(b.data());
+        }
 
-        Entry<Key, Value>& operator*() const;
-        Entry<Key, Value>* operator->() const;
+        bool operator!=(const iterator& b) const {
+            return *_data != *(b.data());
+        }
+
+        const_iterator& operator++() {
+            if (_data->HasRChild()) {
+                _data = _data->_rchild;
+                while (_data->_lchild) {
+                    _data = _data->_lchild;
+                }
+            } else if (_data->ISRChild()) {
+                _data = _data->_parent->_parent;
+            } else {
+                _data = _data->_parent;
+            }
+
+            return *this;
+        }
+
+        const Node< Entry<Key, Value> >& operator*() const {
+            return *_data;
+        }
+
+        const Node< Entry<Key, Value> >* operator->() const {
+            return _data->;
+        }
     };
 
     typedef std::reverse_iterator<iterator> reverse_iterator;
@@ -84,3 +152,7 @@ public:
     void erase(iterator first, iterator last); // erase elements in range [first, last)
     void clear(); // erase all elements
 };
+
+
+// IMPLEMENTATIONS
+template <typename Key, typename Value>
