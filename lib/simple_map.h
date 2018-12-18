@@ -1,6 +1,7 @@
 #pragma once
 #include "red_black_tree\rbtree.h" // declarations and implementations of Red Black Tree, used as basic data structure of SimpleMap
 #include "entry.h" // element in SimpleMap named "entry", a pair of <key, value>
+#include "iterators.h"
 #include <limits> // for MAX_UNSIGNED_INT, theorical max size of SimpleMap
 
 template <typename Key, typename Value>
