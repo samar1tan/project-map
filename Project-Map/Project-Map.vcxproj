@@ -27,6 +27,9 @@
   <ItemGroup>
     <ClCompile Include="..\test\test_map.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{74F62F5A-D2B7-4C9A-BC62-8E4814754723}</ProjectGuid>
