@@ -8,28 +8,51 @@
 template <typename Key, typename Value>
 class SimpleMap {
 public:
+    // TODO: implement STL-style iterators
+
+    typedef typename Entry<Key, Value> Element;
+    typedef typename Node<Element> Node;
+    
     class iterator {
     private:
-        Node< Entry<Key, Value> >* _data;
+        Node* _data;
     public:
         iterator() : _data(nullptr) { }
-        iterator(const iterator& x) : _data(x) { }
+        iterator(Node* data) : _data(data) { }
+        iterator(iterator& x) : _data(x.data()) { }
 
-        Node< Entry<Key, Value> >* data() {
+        Node* data() {
             return _data;
         }
 
-        iterator& operator=(const iterator& b) {
+        Node* operator!() const {
+            return !_data;
+        }
+
+        iterator& operator=(Node* b) {
+            _data = b;
+            return *this;
+        }
+
+        iterator& operator=(iterator& b) {
             _data = b.data();
             return *this;
         }
 
         bool operator==(const iterator& b) const {
-            return *_data == *(b.data());
+            if (!this->data()) {
+                if (!b.data()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return *_data == *(b.data());
+            }
         }
 
         bool operator!=(const iterator& b) const {
-            return *_data != *(b.data());
+            return !((*this) == b);
         }
 
         // in Binary Search Tree, e.g., Red Black Tree
@@ -49,38 +72,61 @@ public:
             return *this;
         }
 
-        Node< Entry<Key, Value> >& operator*() const {
+        Node& operator*() const {
             return *_data;
         }
 
-        Node< Entry<Key, Value> >* operator->() const {
-            return _data->;
+        Node* operator->() const {
+            return _data;
         }
     };
-
+    
     class const_iterator {
     private:
-        const Node< Entry<Key, Value> >* _data;
+        const Node* _data;
     public:
         const_iterator() : _data(nullptr) { }
-        const_iterator(const const_iterator& cx) : _data(cx) { }
-        const_iterator(const iterator& x) : _data(x) { }
+        const_iterator(Node* data) : _data(data) { }
+        const_iterator(const_iterator& cx) : _data(cx.data()) { }
+        const_iterator(iterator& x) : _data(x.data()) { }
 
-        Node< Entry<Key, Value> >* data() {
+        Node* data() {
             return _data;
         }
 
-        const_iterator& operator=(const const_iterator& b) {
+        const_iterator& operator=(Node* b) {
+            _data = b;
+            return *this;
+        }
+
+        const_iterator& operator=(const_iterator& b) {
             _data = b.data();
             return *this;
         }
-         
-        bool operator==(const iterator& b) const {
-            return *_data == *(b.data());
+        
+        const_iterator& operator=(iterator& b) {
+            _data = b.data();
+            return *this;
         }
 
-        bool operator!=(const iterator& b) const {
-            return *_data != *(b.data());
+        Node* operator!() const {
+            return !_data;
+        }
+
+        bool operator==(const iterator& x) const {
+            if (!this->data()) {
+                if (!x.data()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return *_data == *(x.data());
+            }
+        }
+
+        bool operator!=(const iterator& x) const {
+            return !((*this) == x);
         }
 
         const_iterator& operator++() {
@@ -98,32 +144,37 @@ public:
             return *this;
         }
 
-        const Node< Entry<Key, Value> >& operator*() const {
+        const Node& operator*() const {
             return *_data;
         }
 
-        const Node< Entry<Key, Value> >* operator->() const {
-            return _data->;
+        const Node* operator->() const {
+            return _data;
         }
     };
 
-    typedef std::reverse_iterator<iterator> reverse_iterator;
-    typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+    typedef typename iterator iterator;
+    typedef typename const_iterator const_iterator;
+    // typedef std::reverse_iterator<iterator> reverse_iterator;
+    // typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 protected:
     iterator _begin;
-    iterator _end;
-    reverse_iterator _rbegin;
-    reverse_iterator _rend;
+    // iterator _end; // nullptr
+    // reverse_iterator _rbegin;
+    // reverse_iterator _rend; // nullptr
     const_iterator _cbegin;
-    const_iterator _cend;
-    const_reverse_iterator _crbegin;
-    const_reverse_iterator _crend;
-protected:
+    // const_iterator _cend; // nullptr
+    // const_reverse_iterator _crbegin;
+    // const_reverse_iterator _crend; // nullptr
+
     RedBlackTree< Entry<Key, Value> >* _data;
     unsigned int _size;
+
+    // TODO: better implementation?
+    void UpdateMemberIterators(); // update _begin, _end, _cbegin, _cend...
 public:
     // Constructor
-    SimpleMap() : _data(new RedBlackTree< Entry<Key, Value> >), _size(0), _begin(), _end(), _rbegin(), _rend(), _cbegin(), _cend(), _crbegin(), _crend() { } 
+    SimpleMap() : _data(new RedBlackTree< Entry<Key, Value> >), _size(0), _begin(), _cbegin() { }; // _rbegin(), _crbegin()
     
     // Destructor
     ~SimpleMap();
@@ -133,13 +184,13 @@ public:
 
     // Iterators
     iterator begin() const;
-    iterator end() const;
-    reverse_iterator rbegin() const;
-    reverse_iterator rend() const;
+    iterator end() const; // return nullptr
+    // reverse_iterator rbegin() const;
+    // reverse_iterator rend() const; // return nullptr
     const_iterator cbegin() const;
-    const_iterator cend() const;
-    const_reverse_iterator crbegin() const;
-    const_reverse_iterator crend() const;
+    const_iterator cend() const; // return nullptr
+    // const_reverse_iterator crbegin() const;
+    // const_reverse_iterator crend() const; // return nullptr
 
     // Capacity 
     bool empty() const;
@@ -148,80 +199,100 @@ public:
 
     // Element access
     Value& operator[] (const Key& k); // return reference to mapped value of k, otherwise reference to newly initialized default value
-    iterator find(const Key& k) const; // return iterator to element with key = k, otherwise SimpleMap::end 
+    iterator find(const Key& k) const; // return iterator to element with key = k, otherwise nullptr (SimpleMap::end)
     int count(const Key& k) const; // return number of elements with key = k, only 0 / 1 is legal
-    iterator lower_bound(const Key& k) const; // return iterator to element with min key
-    iterator upper_bound(const Key& k) const; // return iterator to element with max key
-    RedBlackTree< Entry<Key, Value> >* data() const; // return pointer to root of basic Red Black Tree
+    iterator min() const; // return iterator to element with min key
+    iterator max() const; // return iterator to element with max key
+    Node* data() const; // return pointer to root of basic Red Black Tree
 
     // Modifiers
-    Entry<Key, Value> insert(const Entry<Key, Value>& element); // return copy of newly inserted element 
-    Value erase(const Key& key); // erase by key, popped its mapped value
-    void erase(iterator position); // erase by position directly
-    void erase(iterator first, iterator last); // erase elements in range [first, last)
+    iterator insert(const Entry<Key, Value> element); // return reference to newly inserted element 
+    bool erase(const Key& key); // erase by key and return true, otherwise false
+    bool erase(iterator position); // erase by position and return true, otherwise false
     void clear(); // erase all elements
 };
 
 
 // IMPLEMENTATIONS
+
 template <typename Key, typename Value>
 SimpleMap<Key, Value>::~SimpleMap() {
     delete _data;
 }
 
 template <typename Key, typename Value>
+void SimpleMap<Key, Value>::UpdateMemberIterators() {
+    if (_size) {
+        _begin = _data->root();
+        while (_begin->_lchild) {
+            _begin = _begin->_lchild;
+        }
+        _cbegin = _begin;
+        
+        // _rbegin = _data->_root;
+        // while (_rbegin->_rchild) {
+        //     _rbegin = _rbegin->_rchild;
+        // }
+        // _crbegin = _rbegin;
+    } else {
+        _cbegin = _begin = nullptr; // _rbegin = _crbegin =  
+    }
+}
+
+//template <typename Key, typename Value>
+//SimpleMap<Key, Value>::~SimpleMap() {
+//    delete _data;
+//}
+
+template <typename Key, typename Value>
 SimpleMap<Key, Value>& SimpleMap<Key, Value>::operator=(const SimpleMap<Key, Value>& x) {
     _data = x.data();
     _size = x.size();
     _begin = x.begin();
-    _end = x.end();
-    _rbegin = x.rbegin();
-    _rend = x.rend();
+    // _rbegin = x.rbegin();
     _cbegin = x.cbegin();
-    _cend = x.cend();
-    _crbegin = x.crbegin();
-    _crend = x.crend();
+    // _crbegin = x.crbegin();
 }
 
 template <typename Key, typename Value>
-SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::begin() const {
+typename SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::begin() const {
     return _begin;
 }
 
 template <typename Key, typename Value>
-SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::end() const {
-    return _end;
+typename SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::end() const {
+    return nullptr;
 }
 
-template <typename Key, typename Value>
-SimpleMap<Key, Value>::reverse_iterator SimpleMap<Key, Value>::rbegin() const {
-    return _rbegin;
-}
+// template <typename Key, typename Value>
+// typename SimpleMap<Key, Value>::reverse_iterator SimpleMap<Key,  Value>::rbegin() const {
+//     return _rbegin;
+// }
+
+// template <typename Key, typename Value>
+// typename SimpleMap<Key, Value>::reverse_iterator SimpleMap<Key, Value>::rend() const {
+//     return nullptr;
+// }
 
 template <typename Key, typename Value>
-SimpleMap<Key, Value>::reverse_iterator SimpleMap<Key, Value>::rend() const {
-    return _rend;
-}
-
-template <typename Key, typename Value>
-SimpleMap<Key, Value>::const_iterator SimpleMap<Key, Value>::cbegin() const {
+typename SimpleMap<Key, Value>::const_iterator SimpleMap<Key, Value>::cbegin() const {
     return _cbegin;
 }
 
 template <typename Key, typename Value>
-SimpleMap<Key, Value>::const_iterator SimpleMap<Key, Value>::cend() const {
-    return _cend;
+typename SimpleMap<Key, Value>::const_iterator SimpleMap<Key, Value>::cend() const {
+    return nullptr;
 }
 
-template <typename Key, typename Value>
-SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crbegin() const {
-    return _crbegin;
-}
+// template <typename Key, typename Value>
+// typename SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crbegin() const {
+//     return _crbegin;
+// }
 
-template <typename Key, typename Value>
-SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crend() const {
-    return _crend;
-}
+// template <typename Key, typename Value>
+// typename SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crend() const {
+//     return nullptr;
+// }
 
 template <typename Key, typename Value>
 bool SimpleMap<Key, Value>::empty() const {
@@ -238,6 +309,90 @@ unsigned int SimpleMap<Key, Value>::max_size() const {
     return UINT_MAX;
 }
 
+template <typename Key, typename Value>
+Value& SimpleMap<Key, Value>::operator[] (const Key& k) {
+    Entry<Key, Value> temp(k); // build <k, placeholder(null) >, fill placeholder and return, otherwise insert temp into RBTree
+    Node* is_exist = _data->SearchNode(temp); // entry1 == entry2, iff, entry1.key == entry2.key
+    if (!is_exist) {
+        if (_size <= max_size()) {
+            return *(insert(temp)->_data->_value);
+        } else {
+            return *(max()->_data->_value); // size overflow, keep saturation
+        }
+    } else {
+        return *(is_exist->_data->_value);
+    }
+}
 
+template <typename Key, typename Value>
+typename SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::find(const Key& k) const {
+    Entry<Key, Value> temp(k);
+    iterator result = _data->SearchNode(temp); // entry1 == entry2, iff, entry1.key == entry2.key
+    return result;
+}
 
+template <typename Key, typename Value>
+int SimpleMap<Key, Value>::count(const Key& k) const {
+    Entry<Key, Value> temp(k);
+    return _data->CountNode(temp);
+}
 
+template <typename Key, typename Value>
+typename SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::min() const {
+    return _begin; // beginning of inorder traversal in Search Tree
+}
+
+template <typename Key, typename Value>
+typename SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::max() const {
+    // reserve beginning of inorder traversal in Search Tree
+    iterator temp = _data->root();
+    while (temp->_rchild) {
+        temp = temp->_rchild;
+    }
+    return temp;
+}
+
+template <typename Key, typename Value>
+typename SimpleMap<Key, Value>::Node* SimpleMap<Key, Value>::data() const {
+    return _data;
+}
+
+// TODO: why not const Entry<Key, Value>& like STL?
+template <typename Key, typename Value>
+typename SimpleMap<Key, Value>::iterator SimpleMap<Key, Value>::insert(const Entry<Key, Value> element) {
+    int old_size = _data->size();
+    iterator newly_inserted = _data->InsertNode(element);
+    if (old_size == _data->size()) { // element's key already exists, insertion failed
+        return newly_inserted;
+    } else {
+        _size++;
+        UpdateMemberIterators();
+        return newly_inserted;
+    }
+}
+
+template <typename Key, typename Value>
+bool SimpleMap<Key, Value>::erase(const Key& key) {
+    Entry<Key, Value> temp(key);
+    bool is_successful = _data->RemoveNode(temp);
+    if (is_successful) {
+        _size--;
+        UpdateMemberIterators();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+template <typename Key, typename Value>
+bool SimpleMap<Key, Value>::erase(iterator position) {
+     return erase(position->_data->_key);
+}
+
+template <typename Key, typename Value>
+void SimpleMap<Key, Value>::clear() {
+    delete _data;
+    _data = new RedBlackTree< Entry<Key, Value> >;
+    _size = 0;
+    _begin = _cbegin = nullptr;
+}

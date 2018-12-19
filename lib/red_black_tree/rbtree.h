@@ -11,6 +11,7 @@ protected:
     int _size;
 
     void RemoveSubtree(Node<T>* subtree);
+    int CountSubtree(Node<T>* subtree, T goal) const;
 public:
     Tree() : _size(0), _root(nullptr) {
         return;
@@ -20,6 +21,8 @@ public:
     int size() const;
     bool IsEmpty() const;
     Node<T>* root() const;
+    
+    int CountNode(T goal) const;
 };
 
 template <typename T>
@@ -75,6 +78,11 @@ void Tree<T>::RemoveSubtree(Node<T>* subtree) {
 }
 
 template <typename T>
+int Tree<T>::CountSubtree(Node<T>* subtree, T goal) const {
+    return (subtree ? ((subtree->_data == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal)) : 0);
+}
+
+template <typename T>
 Tree<T>::~Tree() {
     if (_size > 0) {
         RemoveSubtree(_root);
@@ -94,6 +102,11 @@ bool Tree<T>::IsEmpty() const {
 template <typename T>
 Node<T>* Tree<T>::root() const {
     return _root;
+}
+
+template <typename T>
+int Tree<T>::CountNode(T goal) const {
+    return CountSubtree(_root, goal);
 }
 
 // SearchTree
@@ -244,14 +257,14 @@ bool RedBlackTree<T>::IsBlack(Node<T>* node) const {
 
 template <typename T>
 Node<T>* RedBlackTree<T>::SearchNodeIn(Node<T>* subtree, const T& goal, Node<T>** return_hitted_parent) const {
-    if (!subtree || subtree->_data == goal) {
+    if (!subtree || *(subtree->_data) == goal) {
         return subtree;
     } else {
         if (return_hitted_parent) {
             *return_hitted_parent = subtree;
         }
 
-        if (subtree->_data < goal) {
+        if (*(subtree->_data) < goal) {
             return SearchNodeIn(subtree->_rchild, goal, return_hitted_parent);
         } else {
             return SearchNodeIn(subtree->_lchild, goal, return_hitted_parent);
