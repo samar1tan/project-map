@@ -201,6 +201,15 @@ public:
     Value& operator[] (const Key& k); // return reference to mapped value of k, otherwise reference to newly initialized default value
     iterator find(const Key& k) const; // return iterator to element with key = k, otherwise nullptr (SimpleMap::end)
     int count(const Key& k) const; // return number of elements with key = k, only 0 / 1 is legal
+
+#ifdef min
+    #undef min
+#endif
+
+#ifdef max
+    #undef max
+#endif
+
     iterator min() const; // return iterator to element with min key
     iterator max() const; // return iterator to element with max key
     Node* data() const; // return pointer to root of basic Red Black Tree
