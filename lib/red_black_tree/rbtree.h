@@ -1,6 +1,6 @@
 #pragma once
 #include "tree_node.h"
-#include "helpers.h"
+#include <minmax.h>
 
 // DECLARATIONS
 
@@ -364,7 +364,7 @@ int RedBlackTree<T>::height(Node<T>* node) const {
 
 template <typename T>
 int RedBlackTree<T>::UpdateHeight(Node<T>* node) {
-    node->_height = max<int>(2, height(node->_lchild), height(node->_rchild));
+    node->_height = max(height(node->_lchild), height(node->_rchild));
     return (IsBlack(node) ? node->_height++ : node->_height);
 }
 

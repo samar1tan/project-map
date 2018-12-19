@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\entry.h" />
-    <ClInclude Include="..\lib\red_black_tree\helpers.h" />
     <ClInclude Include="..\lib\red_black_tree\tree_node.h" />
     <ClInclude Include="..\lib\red_black_tree\rbtree.h" />
     <ClInclude Include="..\lib\simple_map.h" />

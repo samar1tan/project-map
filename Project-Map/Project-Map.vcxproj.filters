@@ -20,9 +20,6 @@
     <ClInclude Include="..\lib\red_black_tree\tree_node.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\red_black_tree\helpers.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\lib\simple_map.h">
       <Filter>头文件</Filter>
     </ClInclude>
