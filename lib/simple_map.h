@@ -20,7 +20,7 @@ public:
         iterator() : _data(nullptr) { }
         iterator(Element* data) : _data(data) { }
         iterator(Node* node): _data(node->_data) { }
-        iterator(iterator& x) : _data(x.data()) { }
+        
 
         Element* data() {
             return _data;
@@ -94,7 +94,6 @@ public:
         const_iterator() : _data(nullptr) { }
         const_iterator(Element* data) : _data(data) { }
         const_iterator(Node* node) : _data(node->_data) { }
-        const_iterator(const_iterator& cx) : _data(cx.data()) { }
         const_iterator(iterator& x) : _data(x.data()) { }
 
         Element* data() {
@@ -165,8 +164,8 @@ public:
         }
     };
 
-    typedef typename iterator iterator;
-    typedef typename const_iterator const_iterator;
+    //typedef typename iterator iterator;
+    //typedef typename const_iterator const_iterator;
     // typedef std::reverse_iterator<iterator> reverse_iterator;
     // typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 protected:
