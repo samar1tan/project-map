@@ -13,6 +13,9 @@ struct Entry {
 
     Entry& operator=(const Entry<K, V>& b);
 
+    V& value() const;
+    const K& key() const; // key can't be altered directly
+
     // assert: key is comparabled
     bool operator==(const Entry <K, V> & e);
     bool operator!=(const Entry <K, V>& e);
@@ -32,6 +35,16 @@ template <typename K, typename V>
 Entry<K, V>& Entry<K, V>::operator=(const Entry<K, V>& b) {
     _key = b._key;
     _value = b._value;
+}
+
+template <typename K, typename V>
+V& Entry<K, V>::value() const{
+    return *_value;
+}
+
+template <typename K, typename V> 
+const K& Entry<K, V>::key() const{
+    return *_key;
 }
 
 template <typename K, typename V>
