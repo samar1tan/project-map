@@ -38,10 +38,10 @@ alpha version pushed on 1220
 - (destructor)
 - operator=
 - Iterators
-  - `begin` 返回指向红黑树中序遍历序列中的首节点（key最小的元素）的iterator
-  - `end` 返回指向中序遍历假想的哨兵尾节点的iterator，实现为`(SimpleMap::iterator)nullptr`
-  - `cbegin` 返回指向...首节点的const_iterator
-  - `cend` 返回指向...尾节点的const_iterator，实现为`(SimpleMap::const_iterator)nullptr`
+  - `begin` 返回指向红黑树中序遍历序列中的首节点（key最小的元素）内部的Entry的iterator
+  - `end` 返回指向中序遍历假想的哨兵尾节点内部的Entry的iterator，实现为`(SimpleMap::iterator)nullptr`
+  - `cbegin` 返回指向...首节点内部的Entry的const_iterator
+  - `cend` 返回指向...尾节点内部的Entry的const_iterator，实现为`(SimpleMap::const_iterator)nullptr`
 - Capacity
   - `empty` 为空返回true，否则为false
   - `size` 返回当前的元素个数
