@@ -12,28 +12,13 @@ public:
     
     class MapIterator {
     private:
-        Entry<Key, Value>* _data; // not Node*
+        Node<Entry<Key, Value>>* _data; // direct pointer to Entry can't move
     public:
         MapIterator() : _data(nullptr) { }
-        MapIterator(Entry<Key, Value>* data) : _data(data) { }
-        MapIterator(Node< Entry<Key, Value> >* node): _data(&(node->_data)) { }
+        MapIterator(Node< Entry<Key, Value> >* node): _data(node) { }
         
-
-        Entry<Key, Value>* data() {
-            return _data;
-        }
-
-        Entry<Key, Value>* operator!() const {
-            return !_data;
-        }
-
-        MapIterator& operator=(Entry<Key, Value>* b) {
-            _data = b;
-            return *this;
-        }
-
         MapIterator& operator=(Node< Entry<Key, Value> >* b) {
-            _data = &(b->_data);
+            _data = b;
             return *this;
         }
 
@@ -42,32 +27,42 @@ public:
             return *this;
         }
 
-        bool operator==(const MapIterator& b) const {
-            if (!this->data()) {
-                if (!b.data()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return *_data == *(b.data());
-            }
+        Node<Entry<Key, Value>>* data() const {
+            return _data;
         }
 
-        bool operator!=(const MapIterator& b) const {
-            return !((*this) == b);
+        bool operator==(const MapIterator& rhs) const {
+            if (!_data && !rhs.data()) {
+                return true;
+            }
+
+            if (!_data && rhs.data()) {
+                return false;
+            }
+
+            if (_data && !rhs.data()) {
+                return false;
+            }
+
+            return _data->_data == rhs.data()->_data;
+        }
+
+        bool operator!=(const MapIterator& rhs) const {
+            return !operator==(rhs);
         }
 
         // in Binary Search Tree, e.g., Red Black Tree
         // transfer to successor in inorder traversal, otherwise nullptr
-        MapIterator& operator++() {
+        MapIterator& operator++() { // ++iterator
             if (_data->HasRChild()) {
                 _data = _data->_rchild;
                 while (_data->_lchild) {
                     _data = _data->_lchild;
                 }
-            } else if(_data->ISRChild()){
-                _data = _data->_parent->_parent;
+            } else if(_data->IsRChild()){
+                while (_data && (_data->IsRChild() || !(_data->_parent))) { // for the end of inorder traversal
+                    _data = _data->_parent;
+                }
             } else {
                 _data = _data->_parent;
             }
@@ -75,92 +70,22 @@ public:
             return *this;
         }
 
-        Entry<Key, Value>*& operator*() const {
-            return *_data;
+        MapIterator operator++(int) { // iterator++
+            MapIterator backup = *this;
+            operator++();
+            return backup;
+        }
+
+        Entry<Key, Value>& operator*() const {
+            return _data->_data; // define iterator as pointer to Entry
         }
 
         Entry<Key, Value>* operator->() const {
-            return _data;
+            return &(_data->_data); // define iterator as pointer to Entry
         }
     };
     
-    class ConstMapIterator {
-    private:
-        const Entry<Key, Value>* _data;
-    public:
-        ConstMapIterator() : _data(nullptr) { }
-        ConstMapIterator(Entry<Key, Value>* data) : _data(data) { }
-        ConstMapIterator(Node< Entry<Key, Value> >* node) : _data(node->_data) { }
-        ConstMapIterator(MapIterator& x) : _data(x.data()) { }
-
-        Entry<Key, Value>* data() {
-            return _data;
-        }
-
-        ConstMapIterator& operator=(Entry<Key, Value>* b) {
-            _data = b;
-            return *this;
-        }
-
-        MapIterator& operator=(Node< Entry<Key, Value> >* b) {
-            _data = &(b->_data);
-            return *this;
-        }
-
-        ConstMapIterator& operator=(ConstMapIterator& b) {
-            _data = b.data();
-            return *this;
-        }
-        
-        ConstMapIterator& operator=(MapIterator& b) {
-            _data = b.data();
-            return *this;
-        }
-
-        Entry<Key, Value>* operator!() const {
-            return !_data;
-        }
-
-        bool operator==(const MapIterator& x) const {
-            if (!this->data()) {
-                if (!x.data()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return *_data == *(x.data());
-            }
-        }
-
-        bool operator!=(const MapIterator& x) const {
-            return !((*this) == x);
-        }
-
-        ConstMapIterator& operator++() {
-            if (_data->HasRChild()) {
-                _data = _data->_rchild;
-                while (_data->_lchild) {
-                    _data = _data->_lchild;
-                }
-            } else if (_data->ISRChild()) {
-                _data = _data->_parent->_parent;
-            } else {
-                _data = _data->_parent;
-            }
-
-            return *this;
-        }
-
-        const Entry<Key, Value>& operator*() const {
-            return *_data;
-        }
-
-        const Entry<Key, Value>* operator->() const {
-            return _data;
-        }
-    };
-
+    // typedef ConstMapIterator const_iterator;
     // typedef std::reverse_iterator<iterator> reverse_iterator;
     // typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 protected:
@@ -168,7 +93,7 @@ protected:
     // iterator _end; // nullptr
     // reverse_iterator _rbegin;
     // reverse_iterator _rend; // nullptr
-    ConstMapIterator _cbegin;
+    // ConstMapIterator _cbegin;
     // const_iterator _cend; // nullptr
     // const_reverse_iterator _crbegin;
     // const_reverse_iterator _crend; // nullptr
@@ -177,7 +102,7 @@ protected:
     unsigned int _size;
 
     // TODO: better implementation?
-    void UpdateMemberIterators(); // update _begin, _end, _cbegin, _cend...
+    void UpdateMemberIterators(); // update _begin, _end...
 public:
     // Member types
     typedef Key key_type;
@@ -186,10 +111,9 @@ public:
     typedef Entry<Key, Value> element_type;
     typedef RedBlackTree<element_type> allocator_type;
     typedef MapIterator iterator;
-    typedef ConstMapIterator const_iterator;
 
     // Constructor
-    SimpleMap() : _data(new RedBlackTree< Entry<Key, Value> >), _size(0), _begin(), _cbegin() { }; // _rbegin(), _crbegin()
+    SimpleMap() : _data(new RedBlackTree< Entry<Key, Value> >), _size(0), _begin() { }; // _rbegin(), _crbegin()
     
     // Destructor
     ~SimpleMap();
@@ -202,8 +126,8 @@ public:
     MapIterator end() const; // return nullptr
     // reverse_iterator rbegin() const;
     // reverse_iterator rend() const; // return nullptr
-    ConstMapIterator cbegin() const;
-    ConstMapIterator cend() const; // return nullptr
+    // ConstMapIterator cbegin() const;
+    // ConstMapIterator cend() const; // return nullptr
     // const_reverse_iterator crbegin() const;
     // const_reverse_iterator crend() const; // return nullptr
 
@@ -252,7 +176,7 @@ void SimpleMap<Key, Value>::UpdateMemberIterators() {
         while (node->_lchild) {
             node = node->_lchild;
         }
-        _cbegin = _begin = node;
+        _begin = node;
         
         // _rbegin = _data->_root;
         // while (_rbegin->_rchild) {
@@ -260,14 +184,9 @@ void SimpleMap<Key, Value>::UpdateMemberIterators() {
         // }
         // _crbegin = _rbegin;
     } else {
-        _cbegin = _begin = (Entry<Key, Value>*)nullptr; // _rbegin = _crbegin =  
+        _begin = (Node<Entry<Key, Value>>*)nullptr; // _rbegin = _crbegin =  
     }
 }
-
-//template <typename Key, typename Value>
-//SimpleMap<Key, Value>::~SimpleMap() {
-//    delete _data;
-//}
 
 template <typename Key, typename Value>
 SimpleMap<Key, Value>& SimpleMap<Key, Value>::operator=(const SimpleMap<Key, Value>& x) {
@@ -275,7 +194,7 @@ SimpleMap<Key, Value>& SimpleMap<Key, Value>::operator=(const SimpleMap<Key, Val
     _size = x.size();
     _begin = x.begin();
     // _rbegin = x.rbegin();
-    _cbegin = x.cbegin();
+    // _cbegin = x.cbegin();
     // _crbegin = x.crbegin();
 }
 
@@ -286,7 +205,7 @@ typename SimpleMap<Key, Value>::MapIterator SimpleMap<Key, Value>::begin() const
 
 template <typename Key, typename Value>
 typename SimpleMap<Key, Value>::MapIterator SimpleMap<Key, Value>::end() const {
-    return (Entry<Key, Value>*)nullptr;
+    return (Node<Entry<Key, Value>>*)nullptr;
 }
 
 // template <typename Key, typename Value>
@@ -299,15 +218,15 @@ typename SimpleMap<Key, Value>::MapIterator SimpleMap<Key, Value>::end() const {
 //     return nullptr;
 // }
 
-template <typename Key, typename Value>
-typename SimpleMap<Key, Value>::ConstMapIterator SimpleMap<Key, Value>::cbegin() const {
-    return _cbegin;
-}
-
-template <typename Key, typename Value>
-typename SimpleMap<Key, Value>::ConstMapIterator SimpleMap<Key, Value>::cend() const {
-    return (Entry<Key, Value>*) nullptr;
-}
+// template <typename Key, typename Value>
+// typename SimpleMap<Key, Value>::ConstMapIterator SimpleMap<Key, Value>::cbegin() const {
+//     return _cbegin;
+// }
+//
+// template <typename Key, typename Value>
+// typename SimpleMap<Key, Value>::ConstMapIterator SimpleMap<Key, Value>::cend() const {
+//     return (Node<Entry<Key, Value>>*) nullptr;
+// }
 
 // template <typename Key, typename Value>
 // typename SimpleMap<Key, Value>::const_reverse_iterator SimpleMap<Key, Value>::crbegin() const {
@@ -340,12 +259,12 @@ Value& SimpleMap<Key, Value>::operator[] (const Key& k) {
     Node<Entry<Key, Value>>* is_exist = _data->SearchNode(temp); // entry1 == entry2, iff, entry1.key == entry2.key
     if (!is_exist) {
         if (_size <= max_size()) {
-            return insert(temp)->value();
+            return insert(temp)->_value;
         } else {
-            return max()->value(); // size overflow, keep saturation
+            return max()->_value; // size overflow, keep saturation
         }
     } else {
-        return is_exist->_data.value();
+        return is_exist->_data._value;
     }
 }
 
@@ -419,5 +338,5 @@ void SimpleMap<Key, Value>::clear() {
     delete _data;
     _data = new RedBlackTree< Entry<Key, Value> >;
     _size = 0;
-    _cbegin = _begin = (Entry<Key, Value>*)nullptr;
+    _begin = (Entry<Key, Value>*)nullptr;
 }

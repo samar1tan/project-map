@@ -30,7 +30,7 @@ struct Node {
     bool HasLChild() const;
     bool HasRChild() const;
     bool IsLChild() const;
-    bool ISRChild() const;
+    bool IsRChild() const;
 
     Node<T>* uncle() const;
 };
@@ -73,7 +73,7 @@ bool Node<T>::IsLChild() const {
 }
 
 template <typename T>
-bool Node<T>::ISRChild() const {
+bool Node<T>::IsRChild() const {
     if (!_parent) {
         return false;
     } else {

@@ -4,6 +4,11 @@
 这是**学生信息管理系统项目**的一部分
 ## 版本历史
 - alpha (2018.12.20)
+- beta (2018.12.21)
+  - 由于初始设计不周，删除了会引发各路const撕逼的const_iterator实现
+  - 理顺了多层数据结构嵌套下的动态内存管理
+  - 代码实现和README中添加Member types
+  - 简单测试了全部接口，修正了一些错误
 ## 实现概要
 - `template class SimpleMap<Key, Value>` std::map的劣质仿品
   - `template class Entry<Key, Value>` SimpleMap的元素，类似于[std::pair](http://www.cplusplus.com/reference/utility/pair/)
@@ -33,15 +38,24 @@ alpha version pushed on 1220
 - TODO
  
 *其它文件注释较少 ：）*
-## 接口定义
+
+## Member types
+- `key_type` 等同于Entry<Key, Value>中的Key
+- `value_type` 等同于...中的Value
+  - 等价于std\::map::mapped_type
+  - 不等价于std\::map::value_type
+- `mapped_type` 同上
+- `element_type` 等同于Entry<Key, Value>
+  - 等价于std\::map::value_type
+- `allocator_type` 等同于RedBlackTree< Node<Entry<Key, Value> >
+- `iterator` 等同于SimpleMap::MapIterator
+## Member functions
 - (constructor)
 - (destructor)
 - operator=
-- Iterators
+- Iterators (Forward Iterator)
   - `begin` 返回指向红黑树中序遍历序列中的首节点（key最小的元素）内部的Entry的iterator
   - `end` 返回指向中序遍历假想的哨兵尾节点内部的Entry的iterator，实现为`(SimpleMap::iterator)nullptr`
-  - `cbegin` 返回指向...首节点内部的Entry的const_iterator
-  - `cend` 返回指向...尾节点内部的Entry的const_iterator，实现为`(SimpleMap::const_iterator)nullptr`
 - Capacity
   - `empty` 为空返回true，否则为false
   - `size` 返回当前的元素个数
@@ -59,11 +73,12 @@ alpha version pushed on 1220
   - `erase(position)` 按iterator指示的位置删除Entry，成功时返回true，否则false
   - `clear()` 删除所有元素，并重新分配红黑树在堆中的存储位置
 ## 后续安排
-- [ ] 测试SimpleMap的全部接口
+- [x] 测试SimpleMap的全部接口
 - [ ] （*）进一步测试红黑树在随机插入、删除中的稳定性
 - [ ] 与项目的另一部分合并
 - [ ] 展示最终成果
 - [ ] 撰写实验报告
+- [ ] **学了STL之后请回来填坑实现一个STL-style的Container**
 ## 参考资料
 1. [《数据结构（C++语言版）（第3版）》 邓俊辉 清华大学出版社 ](https://dsa.cs.tsinghua.edu.cn/~deng/ds/dsacpp/)
 2. [map - C++ Reference](http://www.cplusplus.com/reference/map/map/)

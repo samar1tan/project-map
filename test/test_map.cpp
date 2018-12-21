@@ -18,16 +18,17 @@ int main() {
     // Process
     test1->insert(Elem(42027, "Zhang Jingzhi"));
     test1->insert(Elem(42028, "foobar"));
+    test1->insert(Elem(42029, "foo"));
+    test1->insert(Elem(42030, "bar"));
     test2.insert(rElem("China Mobile", 10086));
-
-    // Output
-    cout << "42027 is stu id of " << (*test1)[42027] << endl;
-    cout << "42027 is stu id of " << test1->max()->value() << endl;
-    cout << test1->find(42027)->key() << " is stu id of " << test1->max()->value() << endl;
-
+    (*test1)[42027] = "FOOBAR";
+    test1->find(42030)->value() = "Bar";
     
-
-
+    // Output
+    Map::iterator min = test1->min();
+    cout << (++min)++->key() << endl;
+    cout << min->key() << endl;
+    
     cout << "China Mobile's TEL: " << test2["China Mobile"] << endl;
     test2.erase(test2.max());
     cout << "China Mobile's TEL: " << test2["China Mobile"] << endl;
