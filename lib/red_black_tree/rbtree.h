@@ -8,19 +8,23 @@ template <typename T>
 class Tree {
 protected:
     Node<T>* _root;
-    int _size;
+    size_t _size;
 
     void RemoveSubtree(Node<T>* subtree);
     int CountSubtree(Node<T>* subtree, T goal) const;
-public:
+public:  
+    typedef Node<T> node_type;
+    typedef T data_type;
+    typedef size_t size_type;
+
     Tree() : _size(0), _root(nullptr) {
         return;
     }
     ~Tree();
 
-    int size() const;
+    size_t size() const;
     bool IsEmpty() const;
-    Node<T>* root() const;
+    Node<T>* root();
     
     int CountNode(T goal) const;
 };
@@ -79,34 +83,34 @@ void Tree<T>::RemoveSubtree(Node<T>* subtree) {
 
 template <typename T>
 int Tree<T>::CountSubtree(Node<T>* subtree, T goal) const {
-    return (subtree ? ((*(subtree->_data) == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal)) : 0);
+    return (subtree ? ((*(subtree->data()) == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal)) : 0);
 }
 
 template <typename T>
 Tree<T>::~Tree() {
-    if (_size > 0) {
+    if (size() > 0) {
         RemoveSubtree(_root);
     }
 }
 
 template <typename T>
-int Tree<T>::size() const {
+size_t Tree<T>::size() const {
     return _size;
 }
 
 template <typename T>
 bool Tree<T>::IsEmpty() const {
-    return !_root;
+    return !root();
 }
 
 template <typename T>
-Node<T>* Tree<T>::root() const {
+Node<T>* Tree<T>::root() {
     return _root;
 }
 
 template <typename T>
 int Tree<T>::CountNode(T goal) const {
-    return CountSubtree(_root, goal);
+    return CountSubtree(root(), goal);
 }
 
 // SearchTree
@@ -197,7 +201,7 @@ Node<T>* SearchTree<T>::RebalanceSubtree(Node<T>* newly_inserted) {
             }
         }
 
-        if (this->_root->_parent) {
+        if (this->root()->_parent) {
             this->_root = subtree_root;
         }
 
@@ -223,8 +227,8 @@ Node<T>* SearchTree<T>::RemoveAt(Node<T>* posi, Node<T>** return_real_removed_pa
         replacer = posi->_lchild;
     }
 
-    if (posi == this->_root) {
-        if (this->_size == 1) {
+    if (posi == this->root()) {
+        if (this->size() == 1) {
             this->_root = nullptr;
         } else {
             this->_root = replacer;
@@ -257,14 +261,14 @@ bool RedBlackTree<T>::IsBlack(Node<T>* node) const {
 
 template <typename T>
 Node<T>* RedBlackTree<T>::SearchNodeIn(Node<T>* subtree, const T& goal, Node<T>** return_hitted_parent) const {
-    if (!subtree || *(subtree->_data) == goal) {
+    if (!subtree || subtree->data() == goal) {
         return subtree;
     } else {
         if (return_hitted_parent) {
             *return_hitted_parent = subtree;
         }
 
-        if (*(subtree->_data) < goal) {
+        if (subtree->data() < goal) {
             return SearchNodeIn(subtree->_rchild, goal, return_hitted_parent);
         } else {
             return SearchNodeIn(subtree->_lchild, goal, return_hitted_parent);
@@ -382,7 +386,7 @@ Node<T>* RedBlackTree<T>::SearchNode(const T& goal) const {
 template <typename T>
 Node<T>* RedBlackTree<T>::InsertNode(const T& data) {
     Node<T>* insert_posi = nullptr;
-    Node<T>* is_exist = SearchNodeIn(this->_root, data, &insert_posi);
+    Node<T>* is_exist = SearchNodeIn(this->root(), data, &insert_posi);
 
     if (is_exist) {
         return is_exist;

@@ -6,15 +6,17 @@ typedef enum { RB_RED, RB_BLACK } RBColor;
 
 template <typename T> 
 struct Node {
-    T* _data;
+    T _data;
     Node<T> *_parent, *_lchild, *_rchild;
     int _height; // black height
     RBColor _color;
 
+    typedef T data_type;
+
     // define init color as RB_RED --> init (black) height as 0
-    Node(const T& data, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 0, RBColor color = RB_RED) : _data(new T(data)), _color(color), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height) {
+    Node(const T& data, Node<T>* parent = nullptr, Node<T>* lchild = nullptr, Node<T>* rchild = nullptr, int height = 0, RBColor color = RB_RED) : _data(data), _color(color), _parent(parent), _lchild(lchild), _rchild(rchild), _height(height) {
         if (parent) {
-            if (*(parent->_data) < data) {
+            if (parent->_data < data) {
                 parent->_rchild = this;
             } else {
                 parent->_lchild = this;
@@ -22,10 +24,9 @@ struct Node {
         }
     }
 
-    ~Node();
-
     void operator= (const Node& bn);
 
+    const T& data() const; // data can't be altered directly because of key-ordered
     bool HasLChild() const;
     bool HasRChild() const;
     bool IsLChild() const;
@@ -38,11 +39,6 @@ struct Node {
 // IMPLEMENTATIONS
 
 template <typename T>
-Node<T>::~Node() {
-    delete _data;
-}
-
-template <typename T>
 void Node<T>::operator= (const Node& bn) {
     _data = bn._data;
     _parent = bn._parent;
@@ -50,6 +46,11 @@ void Node<T>::operator= (const Node& bn) {
     _rchild = bn._rchild;
     _height = bn._height;
     _color = bn._color;
+}
+
+template <typename T>
+const T& Node<T>::data() const{
+    return _data;
 }
 
 template <typename T>
