@@ -21,8 +21,13 @@ int main() {
 
     // Output
     cout << "42027 is stu id of " << (*test1)[42027] << endl;
-    cout << "42027 is stu id of " << (test1->max())->value() << endl;
+    cout << "42027 is stu id of " << test1->max()->value() << endl;
+    cout << test1->find(42027)->key() << " is stu id of " << test1->max()->value() << endl;
     cout << "China Mobile's TEL: " << test2["China Mobile"] << endl;
+
+    test2.erase(test2.min());
+    cout << "China Mobile's TEL: " << test2["China Mobile"] << endl;
+
     cout << "max size of SimpleMap is " << test1->max_size() << endl;
 
     // Destruct

@@ -415,5 +415,5 @@ void SimpleMap<Key, Value>::clear() {
     delete _data;
     _data = new RedBlackTree< Entry<Key, Value> >;
     _size = 0;
-    _begin = _cbegin = nullptr;
+    _cbegin = _begin = (Element*)nullptr;
 }
