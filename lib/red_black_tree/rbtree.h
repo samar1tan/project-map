@@ -79,7 +79,7 @@ void Tree<T>::RemoveSubtree(Node<T>* subtree) {
 
 template <typename T>
 int Tree<T>::CountSubtree(Node<T>* subtree, T goal) const {
-    return (subtree ? ((subtree->_data == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal)) : 0);
+    return (subtree ? ((*(subtree->_data) == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal)) : 0);
 }
 
 template <typename T>

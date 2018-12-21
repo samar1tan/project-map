@@ -407,7 +407,7 @@ bool SimpleMap<Key, Value>::erase(const Key& key) {
 
 template <typename Key, typename Value>
 bool SimpleMap<Key, Value>::erase(iterator position) {
-     return erase(position->_data->_key);
+     return erase(position->key());
 }
 
 template <typename Key, typename Value>
