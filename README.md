@@ -45,13 +45,13 @@ alpha version pushed on 1220
 - Capacity
   - `empty` 为空返回true，否则为false
   - `size` 返回当前的元素个数
-  - `max_size` 返回理论上SimpleMap元素的最大个数，实现为`UINT_MAX`
+  - `max_size` 返回理论上Entry的最大个数，实现为`UINT_MAX`
 - Element Access
   - `operator[](k)` 返回对key为k的Entry的value的引用，否则插入以k为key的新Entry并返回为其默认构造出的value的引用
   - `find(k)` 返回指向key为k的Entry的iterator，否则返回SimpleMap::end，也即`(SimpleMap::const_iterator)nullptr`
-  - `count(k)` 返回SimpleMap中key为k的Entry的个数，合法的值为0和1
-  - `min` 返回指向SimpleMap中最小值的iterator 
-  - `max` 返回指向SimpleMap中最大值的iterator
+  - `count(k)` 返回key为k的Entry的个数，合法的值为0和1
+  - `min` 返回指向key最小的Entry的iterator 
+  - `max` 返回指向key最大的Entry的iterator
   - `data` 返回指向红黑树的指针
 - Modifiers
   - `insert(element)` 返回指向新插入Entry的iterator，否则指向key相同的旧元素
