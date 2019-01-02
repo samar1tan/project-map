@@ -1,7 +1,7 @@
 # Project Map
 数据结构大作业：基于[红黑树](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree)简单实现[std::map](http://www.cplusplus.com/reference/map/map/)
 
-这是**学生信息管理系统项目**的一部分
+这是**图书信息管理系统项目**的一部分
 ## 版本历史
 - alpha (2018.12.20)
 - beta (2018.12.21)
