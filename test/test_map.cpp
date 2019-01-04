@@ -15,6 +15,8 @@ int main() {
     Map* test1 = new Map;
     rMap test2;
     
+    string foo;
+    foo.
     // Process
     test1->insert(Elem(42027, "Zhang Jingzhi"));
     test1->insert(Elem(42028, "foobar"));

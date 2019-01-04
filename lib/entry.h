@@ -9,7 +9,7 @@ struct Entry {
     
     typedef K key_type;
     typedef V value_type;
-
+    
     Entry(K k = K(), V v = V()) : _key(k), _value(v) { }
 
     Entry& operator=(const Entry<K, V>& b);
