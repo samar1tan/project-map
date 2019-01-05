@@ -228,7 +228,7 @@ int main() {
     RBTTest tester(test, 10000);
     tester.RunTest();
 
-        delete test;
+    delete test;
 
     return 0;
 }
