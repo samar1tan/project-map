@@ -11,7 +11,7 @@ protected:
     size_t _size;
 
     void RemoveSubtree(Node<T>* subtree);
-    int CountSubtree(Node<T>* subtree, T goal) const;
+    int CountSubtree(Node<T>* subtree, T goal);
 public:  
     typedef Node<T> node_type;
     typedef T data_type;
@@ -26,7 +26,7 @@ public:
     bool IsEmpty() const;
     Node<T>* root();
     
-    int CountNode(T goal) const;
+    int CountNode(T goal);
 };
 
 template <typename T>
@@ -82,8 +82,8 @@ void Tree<T>::RemoveSubtree(Node<T>* subtree) {
 }
 
 template <typename T>
-int Tree<T>::CountSubtree(Node<T>* subtree, T goal) const {
-    return (subtree ? ((*(subtree->data()) == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal)) : 0);
+int Tree<T>::CountSubtree(Node<T>* subtree, T goal) {
+    return (subtree ? ( (subtree->data() == goal) + CountSubtree(subtree->_lchild, goal) + CountSubtree(subtree->_rchild, goal) ) : 0);
 }
 
 template <typename T>
@@ -109,7 +109,7 @@ Node<T>* Tree<T>::root() {
 }
 
 template <typename T>
-int Tree<T>::CountNode(T goal) const {
+int Tree<T>::CountNode(T goal) {
     return CountSubtree(root(), goal);
 }
 

@@ -1,44 +1,56 @@
 #include "../lib/simple_map.h"
 #include <iostream>
-#include <string>
 using namespace std;
 
-// typedef for test
-typedef SimpleMap<int, string> Map;
-typedef Entry<int, string> Elem;
-typedef SimpleMap<string, int> rMap;
-typedef Entry<string, int> rElem;
+// typedef for SimpleMap testing
+typedef SimpleMap<int, char> Map;
+typedef Entry<int, char> Elem;
 
-// test SimpleMap and also Entry
 int main() {
-    // Construct
-    Map* test1 = new Map;
-    rMap test2;
-    
-    string foo;
-    foo.
-    // Process
-    test1->insert(Elem(42027, "Zhang Jingzhi"));
-    test1->insert(Elem(42028, "foobar"));
-    test1->insert(Elem(42029, "foo"));
-    test1->insert(Elem(42030, "bar"));
-    test2.insert(rElem("China Mobile", 10086));
-    (*test1)[42027] = "FOOBAR";
-    test1->find(42030)->value() = "Bar";
-    
-    // Output
-    Map::iterator min = test1->min();
-    cout << (++min)++->key() << endl;
-    cout << min->key() << endl;
-    
-    cout << "China Mobile's TEL: " << test2["China Mobile"] << endl;
-    test2.erase(test2.max());
-    cout << "China Mobile's TEL: " << test2["China Mobile"] << endl;
+    Map* test = new Map;
 
-    cout << "max size of SimpleMap is " << test1->max_size() << endl;
+    test->insert(Elem(1, 'a'));
+    test->insert(Elem(2, 'b'));
+    test->insert(Elem(3, 'c'));
+    test->insert(Elem(4, 'd'));
+    test->insert(Elem(5, 'e'));
+    test->insert(Elem(6, 'f'));
+    test->insert(Elem(7, 'g'));
+    test->insert(Elem(8, 'h'));
+    test->insert(Elem(9, 'i'));
+    test->insert(Elem(10, 'j'));
 
-    // Destruct
-    delete test1;
+    for (Map::iterator i = test->begin(); i != test->end(); i++) {
+        cout << "(" << i->key() << ", " << i->value() << ") ";
+    }
+    cout << endl << endl;
 
-    system("pause");
+    cout << "Size: " << test->size() << endl;
+    cout << "Is empty? " << test->empty() << endl;
+    cout << "Max Size: " << test->max_size() << endl << endl;
+
+    cout << "The value with key 6 is '" << (*test)[6] << "'" << endl;
+    cout << "The value with min key is '" << test->min()->value() << "'" << endl << endl;
+
+    test->erase(6);
+    test->erase(test->min());
+    cout << "key-6 and key-min deleted" << endl << endl;
+
+    if (!(test->find(6).data())) {
+        cout << "Cannot find non-existed key-6" << endl << endl;
+    }
+
+    cout << "The amount of key-7: " << test->count(7) << endl;
+    cout << "The value with max key is '" << test->max()->value() << "'" << endl << endl;
+
+    for (Map::iterator i = test->begin(); i != test->end(); i++) {
+        cout << "(" << i->key() << ", " << i->value() << ") ";
+    }
+    cout << endl;
+
+    test->clear();
+
+    delete test;
+
+    return 0;
 }

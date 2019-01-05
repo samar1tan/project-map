@@ -33,7 +33,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\test\test_rbtree.cpp">
+    <ClCompile Include="..\test\test_map.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,6 +9,12 @@
   - 理顺了多层数据结构嵌套下的动态内存管理
   - 代码实现和README中添加Member types
   - 简单测试了全部接口，修正了一些错误
+- released! (2019.1.5)
+- v1.0 (2019.1.5)
+  - 系统测试了RedBlackTree
+  - 简单测试了SimpleMap全部接口
+  - 修复了SimpleMap::count()
+  - 修复了SimpleMap::iterator::operator++()
 ## 实现概要
 - `template class SimpleMap<Key, Value>` std::map的劣质仿品
   - `template class Entry<Key, Value>` SimpleMap的元素，类似于[std::pair](http://www.cplusplus.com/reference/utility/pair/)
@@ -74,10 +80,10 @@ alpha version pushed on 1220
   - `clear()` 删除所有元素，并重新分配红黑树在堆中的存储位置
 ## 后续安排
 - [x] 测试SimpleMap的全部接口
-- [ ] （*）进一步测试红黑树在随机插入、删除中的稳定性
+- [x] （*）进一步测试红黑树在随机插入、删除中的稳定性
 - [ ] 与项目的另一部分合并
-- [ ] 展示最终成果
-- [ ] 撰写实验报告
+- [x] 展示最终成果
+- [x] 撰写实验报告
 - [ ] **学了STL之后请回来填坑实现一个STL-style的Container**
 ## 参考资料
 1. [《数据结构（C++语言版）（第3版）》 邓俊辉 清华大学出版社 ](https://dsa.cs.tsinghua.edu.cn/~deng/ds/dsacpp/)

@@ -1,7 +1,6 @@
 #pragma once
 #include "red_black_tree\rbtree.h" // declarations and implementations of Red Black Tree, used as basic data structure of SimpleMap
 #include "entry.h" // element in SimpleMap named "entry", a pair of <key, value>
-#include <iterator>
 #include <limits.h> // for MAX_UNSIGNED_INT, theorical max size of SimpleMap
 
 // DECLARATIONS
@@ -59,12 +58,17 @@ public:
                 while (_data->_lchild) {
                     _data = _data->_lchild;
                 }
-            } else if(_data->IsRChild()){
-                while (_data && (_data->IsRChild() || !(_data->_parent))) { // for the end of inorder traversal
+            } 
+            else {
+                if (_data->IsRChild()) {
+                    while (_data && (_data->IsRChild() || !(_data->_parent))) { // for the end of inorder traversal
+                        _data = _data->_parent;
+                    }
+                }
+                
+                if (_data && _data->IsLChild()) {  // for the end of inorder traversal
                     _data = _data->_parent;
                 }
-            } else {
-                _data = _data->_parent;
             }
 
             return *this;
@@ -338,5 +342,5 @@ void SimpleMap<Key, Value>::clear() {
     delete _data;
     _data = new RedBlackTree< Entry<Key, Value> >;
     _size = 0;
-    _begin = (Entry<Key, Value>*)nullptr;
+    _begin = (Node<Entry<Key, Value>>*)nullptr;
 }
