@@ -14,15 +14,15 @@ std::cout << foo[1220] << " version pushed on 1220" << std::endl;
 alpha version pushed on 1220
 ```
 ## Member types
-- `key_type` == Entry<Key, Value>.Key
-- `value_type` == Value
-  - == std\::map::mapped_type
-  - != std\::map::value_type
+- `key_type` Entry<Key, Value>.Key
+- `value_type` Value
+  - std\::map::mapped_type
+  - not std\::map::value_type
 - `mapped_type` the same as above
-- `element_type` == Entry<Key, Value>
-  - == std\::map::value_type
-- `allocator_type` == RedBlackTree< Node<Entry<Key, Value> >
-- `iterator` == SimpleMap::MapIterator
+- `element_type` Entry<Key, Value>
+  - std\::map::value_type
+- `allocator_type` RedBlackTree< Node<Entry<Key, Value> >
+- `iterator` SimpleMap::MapIterator
 ## Member functions
 - (constructor)
 - (destructor)
