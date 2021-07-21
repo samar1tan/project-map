@@ -1,7 +1,5 @@
 # Project Map
 Course Project for `Data Structures`：Based on [Red-black tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree), simply implemented [std::map](http://www.cplusplus.com/reference/map/map/)
-
-This is part of our Library Management System.
 ## Demo
 ```cpp
 #include "lib\simple_map.h" // for Windows. '\' --> '/' on Linux 
